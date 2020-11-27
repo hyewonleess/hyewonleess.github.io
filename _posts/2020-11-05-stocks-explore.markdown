@@ -1,11 +1,9 @@
 ---
-layout: post
 title:  "[데이터분석실습] #1 주식데이터 탐색 - 1편"
 date:   2020-11-06
 author_profile: true
 read_time: true
 comments: true
-share: true
 categories: application
 ---
 

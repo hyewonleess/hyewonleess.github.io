@@ -6,9 +6,7 @@ author_profile: true
 read_time: true
 comments: true
 share: true
-related: true
-popular: true
-categories: /Application/
+categories: application
 ---
 
 안녕하세요! 요즘에 저는 주식 투자에 관심이 생겼습니다. 그래서 주식 데이터를 통해 주식 상황을 더 잘 이해해보려고 합니다. 그래서 오늘부터는 미래에셋 주식 데이터를 가지고 여러가지 분석을 해보고 주식에 대한 기본적인 개념과 주식시장에서의 현상을 이해하는 포스팅을 하고자 합니다. 시작은 간단하게, 1편에서는 주식 그래프의 기본적인 개념과 그래프를 공부하고, 주요 대기업의 주가 및 거래량 동향을 살펴보도록 하겠습니다.<br>

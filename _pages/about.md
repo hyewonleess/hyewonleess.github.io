@@ -29,11 +29,14 @@ tags: [About]
 ---
  + 2020 미래에셋 금융빅데이터 페스티벌
    - 보험청구건 분류 예측(classification)
-   - 결과: 결선 진출 (수상 여부 아직 공개 x)
+   - 프로세스: EDA - Feature Engineering - Modeling - Analyze result - Business Idea
+   - 사용언어: Python
  + 2019 빅콘테스트
    - 퓨처스리그: 항공기 지연 예측
-   - 결과: 결선 진출
- + 이외 통계학과 대학원 수업 
+   - 프로세스: EDA - Feature Engineering - Modeling - Analyze result
+   - 사용언어: Python
+ + 이외 통계학과 대학원 수업 프로젝트
+   - 결측자료분석: Comparison of missing data imputation method under MAR assuption
    
 ## Interest🎈
 ---
@@ -46,3 +49,4 @@ tags: [About]
  + Python ⭐ ⭐ ⭐
  + R  ⭐ ⭐
  + SAS  ⭐
+ + SPSS ⭐

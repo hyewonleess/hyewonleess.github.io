@@ -16,9 +16,11 @@ use_math: true
 
 **Bootstrap 과정**
  1. 관측 표본  $x_{1},x_{2},...,x_{n}$ 에서 모수 $\theta$ 를 추정하는 통계량  $\hat{\theta} = T(x_{1},...,x_{n})$ 를 계산한다.
- 2. $x_{1},x_{2},...,x_{n}$ 에서 sampling with replacement를 하여 $x_{1k},...,x_{nk}$ 를 구성하고, $x_{1k},...,x_{nk}$ 를 이용해 $\hat{\theta_{new}}$ = $T($x_{1k},...,x_{nk}$)$ 를 계산한다.
+ 2. $x_{1},x_{2},...,x_{n}$ 에서 sampling with replacement를 하여 $x_{1k},...,x_{nk}$ 를 구성하고, $x_{1k},...,x_{nk}$ 를 이용해 $\hat{\theta_{new}}= T(x_{1k},...,x_{nk})$ 를 계산한다.
  3. 위 작업을 B (boostrap 횟수) 만큼 반복한다.
  4. 각 B 에서 추정한 모수 $\theta$ 의 평균을 내 $\theta$ 의 boostrap 추정량을 구한다. $\hat{\theta_{boot}}=\frac{1}{B}\sum\hat{\theta_{new}}$ <br>
- 그리고 $\hat{\theta_{boot}$의 bias와 신뢰구간을 구한다.
+ 그리고 $\hat{\theta_{boot}}$의 bias와 신뢰구간을 구한다.
+
+
 
 

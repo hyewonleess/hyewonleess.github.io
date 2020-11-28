@@ -30,7 +30,7 @@ use_math: true
    - BCa 방법(bias-corrected and accelerated method): 모수의 분포의 skewness가 클 때 사용하는 방법이다. 우리가 일반적으로 아는 신뢰구간을 구하는 방법이다.($\alpha$% 신뢰구간)
    
 ## 2. Bootstrap 예시
-### (1) Correlation estimation
+### (1) 상관계수 추정
 두 변수 X, Y의 상관계수를 추정하는 bootstrap 예시를 살펴보자. 변수 X와 Y는 아래와 같이 길이가 20인 벡터로 정의한다.
 ```r
 x <- c(15,26,10,9,15,20,18,11,8,20,7,9,10,11,11,10,12,17,11,10)
@@ -58,9 +58,44 @@ Histogram을 그려보면 correlation의 분포가 skewed 된 것을 확인할 �
 **BCa 95% 신뢰구간: (-0.7801,  0.3607 )**
 ![hist](\assets\cor_hist.png)
   
-  
+
+### (2) 로지스틱회귀계수 추정
+**Affairs** 데이터를 이용해 로지스틱 회귀계수를 추정하는 예시이다. Affairs 데이터에는 binary 변수가 없는데, 여기서 `ynaffair` 이라는 affair 의 yes/no 여부를 나타내는 이항 변수를 만든다.
+`affair` 이 0보다 크면 `ynaffair`에 1을, `affair`이 0이면 `ynaffair`에 0을 부여한다.
+```r
+data(Affairs,package='AER')
+Affairs$ynaffair[Affairs$affairs==0] <- 0
+Affairs$ynaffair[Affairs$affairs>0] <- 1
+```
+
+이제 앞서 했던 예시처럼 로지스틱 회귀계수를 구하는 함수를 정의한다. R에서 로지스틱회귀분석을 할 때는 `glm` 함수를 사용한다. `family` 에는 반응변수가 binary이므로 binomial()을 써준다.
+```r
+coefs <- function(data,indices,formula){
+  data.1<-data[indices,]
+  fit <- glm(formula,family=binomial(),data=data.1)
+  return(coef(fit))
+}
+```
+이제 준비가 다 되었으니 bootstrap을 진행한다. Bootstrap 횟수는 1000번이고, formula에는 추정하고자하는 회귀식을 넣어준다. 코드 밑에 출력되는 결과가 있다.
+```r
+log.boot <- boot(data=Affairs,statistic=coefs,R=1000,formula=ynaffair~gender+age+yearsmarried+religiousness+rating)
+print(log.boot,index=1:6,digits=2)
+```
+![result](\assets\boot_result.PNG)
 
 
+그리고 신뢰구간을 구해준다. 코드는 위와 비슷하다. 여기서 특이한 점은 `index` 라는 입력값을 받는다는 것이다. 위 bootstrap 결과를 보면, t1부터 t6까지의 값들이 나와있는데 차례대로 intercept, 
+gender, age, yearsmarried 이렇게 나타낸다. 그럼 index=2 라는 것은 두번째, 즉 gender의 로지스틱회귀계수의 신뢰구간을 구한다는 뜻이다. <br>
+```r
+boot.ci(log.boot,type=c('perc','bca'),conf=0.95,index=2)
+```
+![result](\assets\confidence.PNG)
 
+---
 
+이렇게 bootstrap의 개념과 R 코드를 활용한 예시를 살펴보았다. 이는 이전 포스팅에서 설명한 missing data imputation 방법으로도 사용할 수 있다. 다음에는 Bootstrap imputation 에 대한 포스팅으로 돌아오겠다!
+<br>
 
+**참고자료** <br>
+<br>
+*응용데이터분석 혀명회 저*

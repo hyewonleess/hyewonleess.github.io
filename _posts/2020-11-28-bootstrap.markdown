@@ -1,5 +1,5 @@
 ---
-title:  "[데이터분석이론] #2 Bootstrap(부트스트랩)"
+title:  "[데이터분석이론] #2 Bootstrap"
 categories:
   - theory
 tags:

@@ -36,14 +36,14 @@ sitemap:
 이동평균선 설명: <https://tree9odic.tistory.com/21> <br>
 <br>
 **캔들과 이동평균선**은 주식 차트를 볼 때 주의깊게 봐야 할 중요한 요소입니다. 그래서 캔들을 plot하기 위핸 code를 추가했고, 이동평균은 종목종가 변수를 기준으로  `rolling` 함수를 사용하여 5일, 20일, 60일, 120일 단위로 계산하여 새로운 변수로 추가했습니다. <br>
-```
+```python
 samsung['MA5'] = round(samsung['종목종가'].rolling(window=5, min_periods=1).mean(),0)
 samsung['MA20'] = round(samsung['종목종가'].rolling(window=20, min_periods=1).mean(),0)
 samsung['MA60'] = round(samsung['종목종가'].rolling(window=60, min_periods=1).mean(),0)
 samsung['MA120'] = round(samsung['종목종가'].rolling(window=120, min_periods=1).mean(),0)
 ```
 그리고 다음은 주가변동 트렌트 plot을 그릴 때 정의한 함수입니다.
-```
+```python
 def plot_trend(df,name):
   from matplotlib import gridspec
 

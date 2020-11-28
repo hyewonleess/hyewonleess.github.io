@@ -36,14 +36,14 @@ MCAR은 자료에서 missing 발생 확률이 자료의 관찰 여부와 상관�
 <br>
 <br>
 예시 데이터셋은 다음과 같이 생성했다. z1, z2, z3는 표준정규분포를 따르는 500개의 데이터이다. 그리고 이 데이터를 이용해서 y1과 y2라는 변수를 생성했습니다. 
-```
+```r
 z1 = rnorm(500,0,1)
 z2 = rnorm(500,0,1)
 z3 = rnorm(500,0,1)
 y1 = 1+z1; y2 = 5+2*z1+z2
 ```
 Missing은 y2 변수에서 발생하겠습니다. 이 때, missing을 발생하는 기준으로 **잠재변수 u**를 활용합니다. u<0 이면 y2를 missing으로 합니다. 즉, missing 발생확률은 약 50%라고 볼 수 있습니다.
-```
+```r
 u = a*(y1-1)+b*(y2-5)+z3
 ```
 생성한 sample data가 어떤 구조를 가지는지 간단히 시각화를 하면 다음과 같습니다.
@@ -82,7 +82,7 @@ MCAR 가정 하에서 두 회귀계수도 거의 일치한다는 것을 알 수 
 
 ## 2. MAR(Missing at Random)
 MAR 가정은 missing 발생 확률이 관측값에만 의존하고, missing이 발생하지 않는 변수에는 의존하지 않는다는 가정입니다. MCAR의 가정의 가장 큰 단점은 **실제 데이터에서 현실적이지 않은 가정** 이라는 것입니다. 반면, MAR은 MCAR보다 가정이 완화되었기 때문에, 실제 데이터에서도 자주 쓰이는 가정입니다. 그러면 저희의 sample data에서 MAR가정으로 missing 을 발생시켰을 때, missing data의 분포가 어떻게 되는지 확인해보겠습니다. <br>
-```
+```r
 # MAR 결측 발생 code
 df.full2 = data.frame(cbind(y1,y2))
 u2 = 2*(y1-1)+z3
@@ -119,7 +119,7 @@ MAR 데이터에서 회귀계수를 비교해보겠습니다. 앞서 MCAR 회귀
 
 ## 3. MNAR(Missing Not at Random)
 이제 마지막 missing data mechanism인 MNAR 에 대해 살펴보겠습니다. MNAR은 앞의 두 가정과 달리, missing 발생 확률이 관찰된 값에도, 결측이 발생한 값에도 의존한다고 가정합니다. 이러한 이유로 MNAR 가정 하에서 missing이 발생한 데이터는 분석이 어려운 경향이 있습니다. MNAR 데이터는 다음과 같이 생성합니다.
-```
+```r
 # MNAR 결측 발생 code
 df.full3 = data.frame(cbind(y1,y2))
 u3 = 2*(y2-5)+z3

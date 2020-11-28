@@ -6,6 +6,7 @@ tags:
   - missingdata
   - imputation
 toc: true
+sitemap: 
 ---
 
 오늘은 통계학과 석사 첫학기 수업에서 배운 '결측자료분석'의 **missing data mechanism** 이론에 대해 다뤄보려고 합니다. 데이터분석에서 missing을 다루는 것은 매우 중요한 작업입니다. Missing data를 

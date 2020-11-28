@@ -32,29 +32,30 @@ use_math: true
 ## 2. Bootstrap 예시
 ### (1) Correlation estimation
 두 변수 X, Y의 상관계수를 추정하는 bootstrap 예시를 살펴보자. 변수 X와 Y는 아래와 같이 길이가 20인 벡터로 정의한다.
-```{r}
+```r
 x <- c(15,26,10,9,15,20,18,11,8,20,7,9,10,11,11,10,12,17,11,10)
 y <- c(95,71,83,91,102,87,93,100,104,94,113,96,83,84,102,100,105,121,86,100)
 ```
 R 에서는 bootstrap 을 진행할 수 있도록 `boot` 패키지를 제공한다. 이 패키지를 이용하여 bootstrap 추정을 한다.<br>
 우선 correlation을 계산하는 함수를 정의해야한다. `boot` 함수의 `statistics` 파라미터에 들어가는 함수이다. 그리고 여기서 R, 즉 bootstrap 반복 횟수는 1000으로 설정했다.
 
-```{r}
+```r
 # correlation 함수 정의
 cor.X <- function(data,indices) cor(data[indices,1],data[indices,2])
 # bootstrap 
 boot.cor <- boot(data=cbind(x,y),statistic = cor.X,R=1000)
 ```
 `print` 함수를 이용하면 bias와 standard error을 출력할 수 있다. 그러면 다음과 같이 결과가 나온다. Bias는  0.0347, standard error은 0.2869 로 나온다.
-```{r}
+```r
 print(boot.cor)
 ```
 신뢰구간을 구하기 위해서는 `boot.ci` 함수를 사용하면 된다. 이 때 `type` 에서 'prec'은 백분위수방법, 'bca'는 bca 방법을 나타낸다. 
-```{r}
+```r
 boot.ci(boot.cor,type=c('prec','bca'))
 ```
 이번 예시에서는 과연 어떤 신뢰구간이 적합할까? 이를 알아보기 위해서 각 bootstrap에서 구한 1000개의 correlation의 분포를 살펴보자.<br>
-Histogram을 그려보면 correlation의 분포가 skewed 된 것을 확인할 수 있다. 따라서 BCa 신뢰구간이 더 적절할 것이다.
+Histogram을 그려보면 correlation의 분포가 skewed 된 것을 확인할 수 있다. 따라서 BCa 신뢰구간이 더 적절할 것이다. <br>
+**BCa 95% 신뢰구간: (-0.7801,  0.3607 )**
 ![hist](\assets\cor_hist.png)
   
   

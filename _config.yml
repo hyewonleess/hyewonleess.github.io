@@ -94,7 +94,7 @@ analytics:
 # Site Author
 author:
   name             : "Hyewon Lee"
-  avatar           : #"/assets/KakaoTalk_20201127_231311456.jpg"
+  avatar           : "/assets/profile.jpg"
   bio              : "데이터분석 꿈나무"
   location         : "South Korea"
   email            : "hyewon328@naver.com"

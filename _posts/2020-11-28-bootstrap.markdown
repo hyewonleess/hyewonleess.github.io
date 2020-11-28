@@ -20,6 +20,15 @@ use_math: true
  3. 위 작업을 B (boostrap 횟수) 만큼 반복한다.
  4. 각 B 에서 추정한 모수 $\theta$ 의 평균을 내 $\theta$ 의 boostrap 추정량을 구한다. $\hat{\theta_{boot}}=\frac{1}{B}\sum\hat{\theta_{new}}$ <br>
  그리고 $\hat{\theta_{boot}}$의 bias와 신뢰구간을 구한다.
+ 
+**추정모수의 편향(bias)와 신뢰구간 구하는 방법**
+ + Bias: $\hat{\theta_{boot}}-\hat{\theta}$ 
+ + 신뢰구간: 
+   - 백분위수방법(percentile method): 모수의 분포가 정규분포를 따를 때 적합한 방법. 예를 들어 90% 백분위수 신뢰구간을 구할 때, 하위 5%, 상위 5%가 신뢰구간의 기준이 된다.
+   - BCa 방법(bias-corrected and accelerated method): 모수의 분포의 skewness가 클 때 사용하는 방법이다. 우리가 일반적으로 아는 신뢰구간을 구하는 방법이다.($\alpha$% 신뢰구간)
+  
+  
+
 
 
 

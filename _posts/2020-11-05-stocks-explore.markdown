@@ -18,12 +18,12 @@ toc: true
 ## 1. stocks dataset 살펴보기
 사용할 stocks dataset을 로드하여 대략적인 데이터 구성을 보면 다음과 같습니다. `기준일자` 변수는 2019년 7월 1일부터 2020년 7월 28일까지를 포함하고 있으며, 일별 주가를 나타내는 `종목시가`,`종목고가`,`종목저가`,`종목고가`, 그리고 종목을 나타내는 변수들과 종목이 속하는 산업군 변수가 있습니다. 이 때, `표준산업코드_중분류`, `표준산업코드_소분류`는 전체적인 분석에는 필요하지 않기에 제거하고 분석을 했습니다. 그리고 일별 종목의 총 매도 및 매수 건수를 나타내는 매우 중요한 변수인 `거래량`, `거래금액_만원단위` 변수도 있습니다. <br>
 
-![data preview](/assets/stocks_preview.PNG)
+![data preview](/assets/preview.PNG)
 <br>
 <br>
 이제 stocks data에 이상치가 있는지 `describe()` 함수를 사용하여 이용해 확인해보겠습니다. 거래량과 종목 가격 변수의 minimum이 0인데, 상식적으로 종목의 주가와 거래량이 0이 되는 것은 있을 수 없는 일입니다. 따라서 이 변수들의 값이 0인 데이터를 분석에서 제외하겠습니다.
 <br>
-![describe](/assets/stocks_0.PNG)
+![describe](/assets/describe.PNG)
 <br>
 <br>
 ## 2. 주요 대기업 주가/거래량 변동
@@ -41,7 +41,64 @@ samsung['MA20'] = round(samsung['종목종가'].rolling(window=20, min_periods=1
 samsung['MA60'] = round(samsung['종목종가'].rolling(window=60, min_periods=1).mean(),0)
 samsung['MA120'] = round(samsung['종목종가'].rolling(window=120, min_periods=1).mean(),0)
 ```
+그리고 다음은 주가변동 트렌트 plot을 그릴 때 정의한 함수입니다.
+```
+def plot_trend(df,name):
+  from matplotlib import gridspec
 
+  plt.figure(figsize=(20, 8))                  
+  gs = gridspec.GridSpec(nrows=2, ncols=1,    
+                       height_ratios=[5, 1]) 
+
+##############################################
+  plt.subplot(gs[0])                         
+  # 캔들스틱 그리는 코드 넣을 자리 
+  plt.subplot(gs[0])
+  plt.title(f'{name} 주식캔들',fontsize=15)
+  plt.bar(df['기준일자'],height=df['종목종가']-df['종목시가'],bottom=df['종목시가'],color=cmap)
+  plt.vlines(df['기준일자'],df['종목저가'],df['종목고가'],colors=cmap)
+  plt.axvspan(datetime.datetime(2020,3,1),datetime.datetime(2020,4,1),facecolor='yellow',alpha=0.5)
+  sns.lineplot(df['기준일자'],df['MA5'],color='orange',label='MA5',alpha=0.5);sns.lineplot(df['기준일자'],df['MA20'],color='green',label='MA20',alpha=0.5);
+  sns.lineplot(df['기준일자'],df['MA60'],color='purple',label='MA60',alpha=0.5);sns.lineplot(df['기준일자'],df['MA120'],color='pink',label='MA120',alpha=0.5);
+  plt.ylabel('주가');
+
+  plt.subplot(gs[1])                       
+  sns.lineplot(data=df,x='기준일자',y='거래량',color='green')
+  plt.axvspan(datetime.datetime(2020,3,1),datetime.datetime(2020,4,1),facecolor='yellow',alpha=0.5)
+  plt.title(f'{name} 거래량 변동 추이',fontsize=15)
+
+##############################################
+
+  plt.subplots_adjust(wspace = 0, hspace = 0)  
+  plt.show()
+
+def plot_trend_ver2(df,name):
+  from matplotlib import gridspec
+
+  plt.figure(figsize=(20, 8))                 
+  gs = gridspec.GridSpec(nrows=2, ncols=1,    
+                       height_ratios=[5, 1]) 
+
+##############################################
+  plt.subplot(gs[0])                         
+  # 캔들스틱 그리는 코드 넣을 자리 
+  plt.subplot(gs[0])
+  plt.title(f'{name} 주식캔들',fontsize=15)
+  plt.bar(df['기준일자'],height=df['종목종가']-df['종목시가'],bottom=df['종목시가'],color=cmap)
+  plt.vlines(df['기준일자'],df['종목저가'],df['종목고가'],colors=cmap)
+  sns.lineplot(df['기준일자'],df['MA5'],color='orange',label='MA5',alpha=0.5);sns.lineplot(df['기준일자'],df['MA20'],color='green',label='MA20',alpha=0.5);
+  sns.lineplot(df['기준일자'],df['MA60'],color='purple',label='MA60',alpha=0.5);sns.lineplot(df['기준일자'],df['MA120'],color='pink',label='MA120',alpha=0.5);
+  plt.ylabel('주가');
+
+  plt.subplot(gs[1])                       
+  sns.lineplot(data=df,x='기준일자',y='거래량',color='green')
+  plt.title(f'{name} 거래량 변동 추이',fontsize=15)
+
+##############################################
+
+  plt.subplots_adjust(wspace = 0, hspace = 0)  # 구획(subplot) 간의 간격을 없앤다.
+  plt.show()
+  ```
 
 ### (1) 삼성전자
 삼성전자는 한국에서 가장 큰 기업 중 하나입니다. 지난 1년간 삼성전자의 주가와 거래량은 어떻게 변화했는지 캔들차트와 거래량 변동 그래프를 통해 살펴보겠습니다. 아래 그래프에서 위쪽에

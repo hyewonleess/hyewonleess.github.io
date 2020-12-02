@@ -27,11 +27,12 @@ tags: [About]
    
 ## Projects📊
 ---
- + 2020 미래에셋 금융빅데이터 페스티벌
+ + **2020 미래에셋 금융빅데이터 페스티벌: 최종 3등 장려상**
+   - <https://programmers.co.kr/competitions/252/2020-miraeasset>
    - 보험청구건 분류 예측(classification)
    - 프로세스: EDA - Feature Engineering - Modeling - Analyze result - Business Idea
    - 사용언어: Python
- + 2019 빅콘테스트
+ + **2019 빅콘테스트: 결선 진츨**
    - 퓨처스리그: 항공기 지연 예측
    - 프로세스: EDA - Feature Engineering - Modeling - Analyze result
    - 사용언어: Python

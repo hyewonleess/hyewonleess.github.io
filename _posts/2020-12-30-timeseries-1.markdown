@@ -50,7 +50,23 @@ temp['window_quarter'] = temp['Temp'].rolling(window = 120, min_periods=1).mean(
 temp['window_year'] = temp['Temp'].rolling(window = 365, min_periods=1).mean()
 ```
 
-이렇게 추출한 결과를 실제 데이터와 비교하면 다음과 같다.
+이렇게 추출한 결과를 실제 데이터와 비교하면 다음과 같다. Monthly와 Quarterly로 이동평균을 낸 결과는 실제 데이터의 추세와 계절성을 잘 반영하는 것을 볼 수 있다. 반면 Yearly의 경우 N이 너무 크기 때문에 평활효과가 커져 세부적인 추세는 잘 반영하지 못하는 모습을 보인다.
+![data](/assets/rolling.png)
 
+이제 이 세가지 이동평균 중, 추세를 제일 잘 반영하는 Monthly 이동평균을 이용해 test set을 예측해보자. 앞선 코드와 다른 점은, 위 그래프에서는 1990년의 데이터를 이용하여 이동평균을 구했지만,
+이제는 train set만의 데이터를 이용해 1990년 데이터의 이동평균을 구한다. 구현한 코드는 아래에 있다.
+```Python
+preds_ma = []
+num_train_idx = len(train)
+num_test_idx = len(test)
+
+for i in range(len(test)):
+  idx = num_train_idx + i
+  rolling = temp.iloc[idx-30:idx,:]
+  ma = np.round(rolling['Temp'].mean(),1)
+  preds_ma.append(ma)
+```
+결과는 다음과 같다. 이동평균으로 test set을 예측하면 대략적인 추세는 잘 예측하지만, 이동평균의 특성상 세부적인 변동은 반영하지 못하는 것을 알 수 있다.
+![data](/assets/pred_ma.png)
 
 [KMOOC 시계열분석 강의]: http://www.kmooc.kr/courses/course-v1:POSTECHk+IMEN677+2020_2/about

@@ -5,6 +5,7 @@ categories:
 tags:
   - timeseries
 toc: true
+use_math: true
 sitemap: 
 ---
 
@@ -39,7 +40,7 @@ sitemap:
 
 Python에서 제공하는 `rolling` 함수를 이용하면 이동평균을 계산할 수 있다. 여기서 `window`가 바로 이동평균을 몇 개의 시점에 대해 낼 것인지를 결정하는 N 값이다. Temperature 데이터에
 한 달(30일), 1분기(120일), 1년을 기준으로 이동평균을 계산하여 비교하자! 코드는 아래와 같다.
-```Python
+```python
 # monthly
 temp['window_month'] = temp['Temp'].rolling(window = 30, min_periods=1).mean()
 
@@ -55,7 +56,7 @@ temp['window_year'] = temp['Temp'].rolling(window = 365, min_periods=1).mean()
 
 이제 이 세가지 이동평균 중, 추세를 제일 잘 반영하는 Monthly 이동평균을 이용해 test set을 예측해보자. 앞선 코드와 다른 점은, 위 그래프에서는 1990년의 데이터를 이용하여 이동평균을 구했지만,
 이제는 train set만의 데이터를 이용해 1990년 데이터의 이동평균을 구한다. 구현한 코드는 아래에 있다.
-```Python
+```python
 preds_ma = []
 num_train_idx = len(train)
 num_test_idx = len(test)

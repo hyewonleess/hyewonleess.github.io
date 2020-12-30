@@ -22,9 +22,35 @@ sitemap:
 [Data information]
  + 1981년 1월 1일부터 1990년 12월 31일까지의 온도 데이터
 
+![data](/assets/data.png)
+
+이 데이터셋에는 따로 train, test set이 없지만, 필자는 1990년(총 1년) 데이터를 test set으로 설정해 train set(1981~1989)에 시계열 평활기법을 적용해 test set을 예측하는 방식으로 본 포스팅을
+풀어나갈 것이다.
+
+<br>
 
 ## 1. 이동평균(Moving Average)
 **이동평균법** 은 매 시점에서 직전 N개의 데이터를 이용해 평균을 구하는 방법이다. 보통 N이 커질수록 평활 정도가 커진다. 
-## 
+수식으로 표현하면 다음과 같다. $M_{t}$를 시점 t에서의 이동평균, $X_{t}$ 를 시점 t에서의 temperature 이라고 하면 $M_{t} = \frac{1}{N}(X_{t}+ \cdots + X_{t-N+1})$ 이다.
+<br>
+이동평균은 생각보다 굉장히 심플한 개념이다. 이제 이를 temperatures 데이터에 적용해보고 N의 크기에 따라 어떤 차이를 보이는지 살펴보자.
+
+<br>
+
+Python에서 제공하는 `rolling` 함수를 이용하면 이동평균을 계산할 수 있다. 여기서 `window`가 바로 이동평균을 몇 개의 시점에 대해 낼 것인지를 결정하는 N 값이다. Temperature 데이터에
+한 달(30일), 1분기(120일), 1년을 기준으로 이동평균을 계산하여 비교하자! 코드는 아래와 같다.
+```Python
+# monthly
+temp['window_month'] = temp['Temp'].rolling(window = 30, min_periods=1).mean()
+
+# quaterly
+temp['window_quarter'] = temp['Temp'].rolling(window = 120, min_periods=1).mean()
+
+# yearly
+temp['window_year'] = temp['Temp'].rolling(window = 365, min_periods=1).mean()
+```
+
+이렇게 추출한 결과를 실제 데이터와 비교하면 다음과 같다.
+
 
 [KMOOC 시계열분석 강의]: http://www.kmooc.kr/courses/course-v1:POSTECHk+IMEN677+2020_2/about

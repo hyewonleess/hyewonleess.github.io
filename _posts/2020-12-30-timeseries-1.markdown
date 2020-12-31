@@ -1,5 +1,5 @@
 ---
-title:  "[Time Series Analysis] #1 시계열 평활기법"
+title:  "[Time Series Analysis] #1 시계열 평활기법(1)"
 categories:
   - theory
 tags:
@@ -69,5 +69,22 @@ for i in range(len(test)):
 ```
 결과는 다음과 같다. 이동평균으로 test set을 예측하면 대략적인 추세는 잘 예측하지만, 이동평균의 특성상 세부적인 변동은 반영하지 못하는 것을 알 수 있다.
 ![data](/assets/pred_ma.png)
+
+## 2. 지수평활법(Exponential Smoothing)
+**지수평활법** 은 평활치를 구하는데 시점마다 다른 가중치를 두는 방법이다. 이 때, 현재에 가까울수록 더 큰 가중치를 줌으로써 최근의 추세를 반영하도록 한다. 이 중 단순지수평활법은 수평적인
+추세를 반영할 때 사용된다. 선형적인 추세를 반영하는 기법은 뒤 포스트에서 설명하도록 하겠다.
+<br>
+시점 t에서의 지수평활치 수식은 다음과 같다. $S_{t} = \alpha X_{t} + \alpha(1-\alpha) X_{t-1} + \alpha(1-\alpha)^2 X_{t-2} + \cdots$ 로 지수평활치를 구한다. 과거 시점으로 갈수록
+$(1-\alpha)$ 의 지수를 하나씩 커지게 함으로써 점점 작은 가중치를 부여한다. ($0<\alpha<1$)
+ + $\alpha$ 가 커질수록 현재 시점의 값을 더 많이 반영한다.
+ + $\alpha$ 가 작을수록 평활효과가 크다. $\alpha$ 가 작을수록 전체적인 평균을 반영하려는 경향이 커지기 때문이다.
+ 
+<br>
+이제 $\alpha$ 값에 따라 지수평활치가 추세를 어떻게 반영하는지 비교해보자. Python의 `SimpleExpSmoothing` 함수를 이용하면 단순지수평활법을 적용할 수 있다.
+![data](/assets/ses.png)
+
+위 그림을 보면 $\alpha$ 가 클수록 각 시점에서의 값을 잘 반영하는 것을 볼 수 있다. 현재 시점의 값을 가장 많이 반영하기 때문에 나타나는 결과이다.
+
+<br>
 
 [KMOOC 시계열분석 강의]: http://www.kmooc.kr/courses/course-v1:POSTECHk+IMEN677+2020_2/about

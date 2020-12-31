@@ -86,5 +86,5 @@ $(1-\alpha)$ 의 지수를 하나씩 커지게 함으로써 점점 작은 가중
 위 그림을 보면 $\alpha$ 가 클수록 각 시점에서의 값을 잘 반영하는 것을 볼 수 있다. 현재 시점의 값을 가장 많이 반영하기 때문에 나타나는 결과이다.
 
 <br>
-
+<br>
 [KMOOC 시계열분석 강의]: http://www.kmooc.kr/courses/course-v1:POSTECHk+IMEN677+2020_2/about

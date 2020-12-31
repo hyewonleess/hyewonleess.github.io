@@ -83,8 +83,32 @@ $(1-\alpha)$ 의 지수를 하나씩 커지게 함으로써 점점 작은 가중
 이제 $\alpha$ 값에 따라 지수평활치가 추세를 어떻게 반영하는지 비교해보자. Python의 `SimpleExpSmoothing` 함수를 이용하면 단순지수평활법을 적용할 수 있다.
 ![data](/assets/ses.png)
 
-위 그림을 보면 $\alpha$ 가 클수록 각 시점에서의 값을 잘 반영하는 것을 볼 수 있다. 현재 시점의 값을 가장 많이 반영하기 때문에 나타나는 결과이다.
+위 그림을 보면 $\alpha$ 가 클수록 각 시점에서의 값을 잘 반영하는 것을 볼 수 있다. 큰 $\alpha$는 현재 시점의 값을 가장 많이 반영하기 때문에 나타나는 결과이다.
+
+세 경우 중 $\alpha$ 가 0.5 일 때 추세를 가장 잘 반영하기 때문에 이를 이용하여 test set의 시계열 값을 예측해보겠다.
+```python
+# Simple Exponential Smoothing
+model = SimpleExpSmoothing(train['Temp']).fit(smoothing_level=0.5) # 단순지수평활 모델 생성
+test['SES'] = model2.forecast(365) # 365일의 데이터 forecast
+
+# 결과 plot
+plt.figure(figsize=(12,4))
+sns.set_style('whitegrid')
+
+sns.lineplot(data=test, x='Date', y='Temp', color='silver')
+sns.lineplot(data=test, x='Date', y='SES', color='red', label= 'SES predicted')
+plt.title('Temperatures - SES', fontsize=15)
+plt.show()
+```
+![data](/assets/ses2.png)
+단순지수평활법을 적용하여 test set을 예측하면 단순 직선으로, 즉 한가지 값으로만 예측한다. 이는 단순지수평활법은 수평 추세를 반영하는 데 사용되는 기법이기 때문에, temperatures 데이터가
+갖고 있는 계절성을 반영하지 못하는 모습을 보인다. 더 중요한 것은, **Preview** 파트의 원본 temperatures 데이터의 시계열 분포를 보면 `Temp`가 8-9월 경까지 감소했다가 다시 증가하는 패턴을 보이는데, 전체적으로 봤을 때 추세가 증가한다 혹은 감소한다 라고 정의하지 못한다. (감소한만큼 다시 증가하여 상쇄되기 때문) 
 
 <br>
+
 <br>
+---
+여기서 지수평활기법 설명 파트 1을 마무리 짓겠다! 다음에는 홀트, 홀트-윈터스 모형 및 분해법에 대해 알아보도록 하자.
+
+
 [KMOOC 시계열분석 강의]: http://www.kmooc.kr/courses/course-v1:POSTECHk+IMEN677+2020_2/about

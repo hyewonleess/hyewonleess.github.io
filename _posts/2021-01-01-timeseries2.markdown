@@ -49,7 +49,7 @@ Holt-Winters 모형은 Holt 모형이 계절성을 반영하지 못한다는 단
  + 기간: 1992년 1월 1일 ~ 2020년 1월 4일
  + 일별 Retail Sales 데이터
  + 추세(trend): 대체로 증가하는 추세 보임
- + 계절성: 1) 1년 단위로 봤을 때, 연말로 갈수록 증가했다가 연초에 다시 감소하는 계절성 보임. 2) 각 주기마다 진폭이 점점 증가하기 때문에 Multiplicative 모형 적용 필요
+ + 계절성: 1) 1년 단위로 봤을 때, 연말로 갈수록 증가하는 계절성을 보임 2) 각 주기마다 진폭이 점점 증가하기 때문에 Multiplicative 모형 적용 필요
 
 ![data](/assets/original.png)
 
@@ -66,13 +66,42 @@ Holt-Winters 모형은 Holt 모형이 계절성을 반영하지 못한다는 단
 이제 train set을 이용해 test set의 Retail Sales 를 예측한다. `Holt` 함수에 내장되어 있는 `forecast` 를 사용하면 된다.
 ![data](/assets/holt2.png)
 [해석] <br>
-Predicted value는 원본 데이터의 증가 추세는 반영했지만, 1년 단위로 점점 증가했다가 연초에 감소하는 계절성은 반영하지 못한다. 
+Predicted value는 원본 데이터의 증가 추세는 반영했지만, 1년 단위로 연말로 갈수록 점점 Retail Sales가 증가하는 계절성은 반영하지 못한다. 
 예측값들은 대체적으로 **선형 추세** 를 보이고 있는데, 이는 Holt 모형의 예측식인 $f_{t}= L_{t} + kb_{t}$ 가 반영된 결과라고 볼 수 있다.
 
 
 ### (3) Holt-Winters
 Holt-Winters 모형은 Python의 `ExponentialSmoothing` 을 사용하여 구현한다. 이 함수를 사용할 때는 몇가지 설정해야할 파라미터가 있다.
  + `seasonal_periods`: 주기 사이클 내의 기간의 수를 숫자로 지정한다. ex) 일주일 주기의 daily 데이터: 7, 일년 주기의 monthly 데이터: 12
+ + `seasonal`: additive/multiplicative. 본 분석의 경우 multiplicative 적용
+ + `trend`: add/mul. 추세를 나타내는 $b_{t}$는 더해지기 때문에 add 적용
+ 
+파라미터를 지정했으면 본격적으로 분석을 한다. 이 때 `seasonal_periods`는 본 데이터가 일년 주기의 계절성을 띄므로 4(분기별), 12(월별) 를 각각 적용해 그 결과를 비교했다.
+![data](/assets/h-w1.png)
+
+월별로 예측한 데이터가 원래 시계열 데이터의 패턴을 잘 fitting 하는 경향을 보인다. 월별로 나눠서 예측을 했을 때가 각 시점의 시계열 데이터를 더 세밀하게 반영하기 때문이다.
+<br>
+
+그러면 `seasonal_periods`를 12로 지정하여 test set을 예측해보자.
+![data](/assets/h-w2.png)
+[해석] <br>
+Holt-Winters는 Holt 모형보다 훨씬 원본 데이터에 가깝게 예측하는 것을 확인할 수 있다. Holt 모형이 증가 추세는 예측하지만 계절성은 전혀 예측하지 못하는 것에 비해 Holt-Winters 모형은 증가 추세와 연말로 갈수록 증가하는 계절성을 모두 capture 했다! 또한 `seasonal`을 multiplicative로 지정했기 때문에, 점점 커지는 진폭의 추세도 대체적으로 잘 반영한 것으로 보인다.
+
+<br>
+
+이렇게 Holt와 Holt-winters 모형에 대해 정리하고 Python을 이용해 실습을 해보았다. 여기서 시계열 평활기법에 대한 포스팅은 마무리하고, ARMA 모형 및 이를 이해하는데 필요한 개념에 대한 포스팅으로 돌아오겠다!
+
+<br>
+
+---
+
+**참고문헌**
+<br>
+*KMOOC 시계열분석 강의* <br>
+*Additive vs Multiplicative 그래프: https://kourentzes.com/forecasting/2014/11/09/additive-and-multiplicative-seasonality/* <br>
+*https://machinelearningmastery.com/exponential-smoothing-for-time-series-forecasting-in-python/*
+
+
 
 <br>
 

@@ -89,8 +89,7 @@ Holt-Winters는 Holt 모형보다 훨씬 원본 데이터에 가깝게 예측하
 
 <br>
 
-이렇게 Holt와 Holt-winters 모형에 대해 정리하고 Python을 이용해 실습을 해보았다. 여기서 시계열 평활기법에 대한 포스팅은 마무리하고, ARMA 모형 및 이를 이해하는데 필요한 개념에 대한 포스팅으로 돌아오겠다!
-
+이렇게 Holt와 Holt-winters 모형에 대해 정리하고 Python을 이용해 실습을 해보았다. 여기서 시계열 평활기법에 대한 포스팅은 마무리하고, ARMA 모형 및 이를 이해하는데 필요한 개념에 대한 포스팅으로 돌아오겠다! 포스팅에 사용한 코드는 [이곳] 에 있다.
 <br>
 
 ---
@@ -106,3 +105,4 @@ Holt-Winters는 Holt 모형보다 훨씬 원본 데이터에 가깝게 예측하
 <br>
 
 [저번 포스팅]: https://hyewonleess.github.io/theory/timeseries-1/
+[이곳]: https://github.com/hyewonleess/github_blog_posts/tree/main/TimeSeries/%ED%8F%89%ED%99%9C%EA%B8%B0%EB%B2%95

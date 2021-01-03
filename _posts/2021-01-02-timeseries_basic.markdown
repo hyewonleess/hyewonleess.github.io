@@ -78,3 +78,20 @@ AR 모델의 ACF와 PACF plot은 확연히 다른 양상을 띈다. 예시로 KM
 이동평균모델은 줄여서 **MA** 모델이라고 한다. MA 모델의 경우 $Z_{t}$ 를 시점 t에서의 백색잡음과 이전 시점들의 백색잡음을 이용하여 예측한다. 수식으로 표현하면 
 $Z_{t} = a_{t}-\theta_{1}a_{t-1}-\cdots-\theta_{q}a_{t-q}$ 이다. 정상성을 만족하기 위해 계수들은 모두 $-1<\theta_{q}<1,\theta_{1}+\cdots+\theta_{q}<1,\theta_{1}-\cdots-\theta_{q}<1 $ 조건을 만족해야 한다.
 
+#### MA 모델의 ACF/PACF
+MA 모델의 ACF와 PACF plot을 살펴보자.
+**MA(1) $Z_{t}=a_{t}-\theta_{1}a_{t-1}$** <br>
+![image](/assets/MA(1).jpg)
+[그래프 해석]
+ + ACF: lag 1 이후로 절단된 패턴을 보인다(절단: lag 1 이후로 ACF 값 = 0)
+ + PACF: 지수적으로 감소하는 경향
+ <br>
+ 
+ 즉 일반화하면 **MA(q)의 PACF는 지수적으로 감소하는 패턴을 보이지만, ACF는 lag p 이후로 절단된 패턴을 보인다.** <br>
+ 
+ ![image](/assets/MA.png)
+ [그래프 해석]
+  + ACF: 각 p에서 처음 p개의 값은 개별적인 값을 가지지만, p+1 번째 값 부터 급격히 작아진 값을 갖기 시작한다. 
+  + PACF: $p = 1, 2, 3, 4$ 모두 지수적으로 감소 <br>
+  
+---

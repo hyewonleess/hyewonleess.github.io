@@ -19,7 +19,7 @@ sitemap:
 **정상성 시계열** 간단하게 말하면 시계열 데이터 ${Z_{t}}$의 expectation과 variance가 일정한 경우를 말한다. 이 때, 정상성 시계열은 조건에 따라 강 정상성(Strong Stationary)와 약정상성(Weak Stationary)
 로 분류할 수 있다.
  + 강 정상성
-  1) $(Z_{1},\cdonts,Z_{t})$ 와 $(Z_{1+k},\cdonts,Z_{t+k})$ 가 같은 결합확률분포를 가진다.
+  1) $(Z_{1},\cdots,Z_{t})$ 와 $(Z_{1+k},\cdots,Z_{t+k})$ 가 같은 결합확률분포를 가진다.
   2) $E(Z_{t})$ 는 항상 일정
   3) $Var(Z_{t})$ 는 항상 일정
   4) $Cov(Z_{t},Z_{t+1}) = Cov(Z_{t+k},Z_{t+k+1})$ : 두 시점의 공분산은 time lag에만 의존한다.

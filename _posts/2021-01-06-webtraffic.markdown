@@ -90,3 +90,8 @@ Agent는 일종의 웹의 하수인 역할을 한다고 생각하면 된다.*(�
 Access와 마찬가지로 일별 평균 방문자수 추이를 비교해보자. all-agent를 통해 방문한 수가 전체적으로 spider을 통해 방문한 수 보다 훨씬 높다. 한가지 특이한 점은 앞선 Access 분석해서
 Access 방법별로 평균 방문 수가 전체적으로 큰 차이를 보이지 않았던 것에 반해, agent의 경우 all-access와 spider의 차이가 매우 크다. 그 이유는 무엇일까?
 ![access](/assets/agent2.png)
+
+
+### (3) Time based 분석
+전체 데이터의 시계열적인 trend를 파악하기 위해 일별, 월별, 요일별로 Visits 수의 평균을 내어 비교해보았다.
+![access](/assets/timeplot.png)

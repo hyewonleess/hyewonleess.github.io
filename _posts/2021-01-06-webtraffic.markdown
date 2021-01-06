@@ -86,6 +86,7 @@ Access란 사용자가 wikipedia page에 어떻게 접근했는지를 나타내�
 Agent는 일종의 웹의 하수인 역할을 한다고 생각하면 된다.*(보충설명하기)*  본 분석에 사용한 Web Traffic data에서 agent는 크게 **all-agent, spider** 로 구성되어있다. <br>
 위키피디아 트래픽 중 대다수는 all-agent를 통해 접속했고, spider 로 방문한 수는 all-agent 에 비해 현저히 적다.
 ![access](/assets/agent1.png)
+<br>
 Access와 마찬가지로 일별 평균 방문자수 추이를 비교해보자. all-agent를 통해 방문한 수가 전체적으로 spider을 통해 방문한 수 보다 훨씬 높다. 한가지 특이한 점은 앞선 Access 분석해서
 Access 방법별로 평균 방문 수가 전체적으로 큰 차이를 보이지 않았던 것에 반해, agent의 경우 all-access와 spider의 차이가 매우 크다. 그 이유는 무엇일까?
 ![access](/assets/agent2.png)

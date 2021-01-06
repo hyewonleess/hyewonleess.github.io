@@ -25,7 +25,7 @@ sitemap:
 이번 포스팅인 Part 1에서는 기본적인 데이터 처리 및 이해를 위한 Data Cleansing 과 EDA 과정을 다루겠다!
 
 ## Web Traffic data 개요
- + link: <https://www.kaggle.com/c/web-traffic-time-series-forecasting/notebooks?competitionId=6768&sortBy=voteCount>
+ + link: <https://www.kaggle.com/c/web-traffic-time-series-forecasting/data>
  + 145063 rows, 551 columns
  + rows: access 방법, agent 종류를 포함한 위키피디아 page name
  + columns: 2015년 7월 1일부터 2016년 12월 31일까지의 일 단위 

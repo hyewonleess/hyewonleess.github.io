@@ -83,15 +83,49 @@ Access란 사용자가 wikipedia page에 어떻게 접근했는지를 나타내�
 ![access](/assets/access2.png)
 
 ### (2) Agent
-Agent는 일종의 웹의 하수인 역할을 한다고 생각하면 된다.*(보충설명하기)*  본 분석에 사용한 Web Traffic data에서 agent는 크게 **all-agent, spider** 로 구성되어있다. <br>
+Agent는 일종의 웹의 하수인 역할을 한다고 생각하면 된다. 구글에 검색에 따르면 Agent는 web traffic을 모니터링하는 역할을 한다. 본 분석에 사용한 Web Traffic data에서 agent는 크게 **all-agent(일반웹접근), spider(웹크롤링)** 로 구성되어있다. <br>
 위키피디아 트래픽 중 대다수는 all-agent를 통해 접속했고, spider 로 방문한 수는 all-agent 에 비해 현저히 적다.
 ![access](/assets/agent1.png)
 <br>
 Access와 마찬가지로 일별 평균 방문자수 추이를 비교해보자. all-agent를 통해 방문한 수가 전체적으로 spider을 통해 방문한 수 보다 훨씬 높다. 한가지 특이한 점은 앞선 Access 분석해서
-Access 방법별로 평균 방문 수가 전체적으로 큰 차이를 보이지 않았던 것에 반해, agent의 경우 all-access와 spider의 차이가 매우 크다. 그 이유는 무엇일까?
+Access 방법별로 평균 방문 수가 전체적으로 큰 차이를 보이지 않았던 것에 반해, agent의 경우 all-access와 spider의 차이가 매우 크다. 
+<br>
+그 이유는 무엇일까? Web Traffic 에서 spider는 웹크롤링을 하는 작업을 말한다. 일반적으로 유저가 웹에 접속할 때 크롤링을 통해서 접속하기 보다는 각 유저의 기기나 매체를 통해 직접
+접속한다. 따라서 spider agent의 데이터 건수가 현저히 적고, 웹크롤링을 하면 그 페이지에 머무는 시간이 적기 때문에 아래와 같은 결과가 나온다.
 ![access](/assets/agent2.png)
 
 
 ### (3) Time based 분석
 전체 데이터의 시계열적인 trend를 파악하기 위해 일별, 월별, 요일별로 Visits 수의 평균을 내어 비교해보았다.
 ![access](/assets/timeplot.png)
+<br>
+[해석]
+ 1. 일별 평균 Visits 수는 전체적인 증감 추세는 판별하기 힘들다.(뒷 포스트에서 자세히 다룰 예정!) 하지만 2016년 7월과 8월에 Visits 수가 급증했다. 앞서 Access 중 desktop에 해당하는
+ 데이터와 비슷한 추이를 보인다.
+  - 7월과 8월에 급증한 이유를 추론하면 summer holiday season 이라는 이유를 생각할 수 있다. 여름 방학 시즌에는 학교나 회사보다는 집에서 보내는 시간이 많기 때문에 그만큼 web traffic이 급증한 것으로 보인다. (만약 이 추론을 보충설명할 수 있는 근거를 찾으면 포스팅하겠다!)
+ 2. 월별 평균 Visits 수의 추이는 일별 추이와 비슷하다. 이 역시 2월 이후에 최저점을 찍다가 7-8월에 급 반등을 시작했다가 9월부터 다시 하락한다.
+ 3. 요일별 평균 Visits 수는 월->금으로 갈수록 감소하다가 주말에 다시 반등한다.
+  - 이 역시 1번과 비슷한 이유로 생각할 수 있는데, 주중보다 주말에 집에 머무는 시간이 많기 때문에 반등한 것으로 예상할 수 있다.
+  
+## 3. Clustering
+EDA 파트의 (3) Time based 분석 결과를 참고했을 때, 월별 평균 Visits 수 추이가 전체 추이와 비슷하기 때문에 월(month)를 기준으로 hierarchical clustering을 진행해보았다. Correlation을 이용하여 클러스터링을 하여 월별 추이가 비슷한 Page 끼리 그룹화하는 것을 목표로 했다. 결과적으로 Page를 총 11개의 클러스터로 그룹화하였다. (자세한 클러스터링에 대한 코드는 포스팅 마지막 링크에 첨부하겠다!)
+![cluster](/assets/clusters.png)
+<br>
+클러스터링 결과 대부분의 클러스터는 비교적 평균 Visits 가 낮았던데 반해 **Cluster 4** 에 해당하는 Page들의 추이를 보면 앞서 분석했던 (3) Time based 분석의 일별 추이와 비슷하다! 이를 통해 Cluster 4 에 속하는 Page들의 방문수가 대체적으로 다른 Page들에 비해 훨씬 높다는 결과를 얻을 수 있다. <br>
+Cluster 4에 속하는 Page의 속성을 몇 개 살펴보았는데 보통 '운동, 식물 등등' 과 관련된 Page들이 많았다. 여기서 아쉬운 점은, web traffic data 에서 페이지의 속성 또는 페이지가 속하는 카테고리에 대한 정보를 갖고 있지 않기 때문에 어떤 카테고리가 web traffic 빈도가 높은지를 파악할 수 없다는 것이었다! 
+
+---
+
+이번 포스팅은 여기서 마무리하겠다. 데이터의 크기가 너무 크고, 정제되지 않은 형태라 처음에 많이 당황했지만 여러가지 소스를 찾고 생각을 해보면서 분석을 할 수 있었다! 다음 포스팅에서는
+이 데이터에 시계열분석기법을 적용하는 연습을 해볼 것이다. 포스팅에 사용한 코드는 [여기]로 들어가면 된다.
+
+<br>
+<br>
+
+**참고문헌**
+<br>
+https://www.kaggle.com/zoupet/predictive-analysis-with-different-approaches <br>
+https://en.wikipedia.org/wiki/Web_crawler <br>
+https://jlim0316.tistory.com/92 <br>
+
+[여기]: https://github.com/hyewonleess/Kaggle/blob/master/WebTraffic/kaggle_timeseries_part1.ipynb

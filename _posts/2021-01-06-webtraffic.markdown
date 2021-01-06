@@ -29,3 +29,4 @@ sitemap:
  + 145063 rows, 551 columns
  + rows: access 방법, agent 종류를 포함한 위키피디아 page name
  + columns: 2015년 7월 1일부터 2016년 12월 31일까지의 일 단위 
+![rawdata](/assets/rawdata.PNG)

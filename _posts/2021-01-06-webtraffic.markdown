@@ -34,6 +34,7 @@ sitemap:
 보다시피 데이터의 크기가 너무 크기 때문에 필자는 Page 중 'en.wikipedia.org'를 포함하는, 즉 영문 위키피디아 페이지만을 대상으로 분석을 진행했다. 그리고 날짜 또한 2016년 날짜만
 포함하는 방향으로 진행했다.(2016년 1월 1일 ~ 2016년 12월 31일)
 
+
 ## 1. Data Cleansing
 ### (1) 데이터 재구조화
 Raw data 를 보면 row가 Page 명, column이 일별 날짜로 이루어져있는데 이를 그대로 쓰게 되면 데이터를 분석하기 다소 힘들다는 판단을 했다. 따라서 `pd.melt` 를 이용해 데이터재구조화를
@@ -62,3 +63,8 @@ Page 명을 나타내는 `Name` 변수를 생성했다. 이와 같은 방법으�
 ### (4) `Date` format 처리
 유연한 시계열분석을 위해 `pd.to_datetime`을 이용해 `Date` 변수의 속성을 datetime 으로 변경했다. 그리고 좀 더 세밀한 분석을 위해 `Date` 변수로부터 월(month), 일(Day), 요일(Weekday)
 를 추출해 각각을 나타내는 새로운 변수를 생성했다.
+
+<br>
+
+이제 Data Cleansing 과정이 마무리되었다! Data Cleansing을 통해 정제된 final data는 다음과 같다.
+![data](/assets/final_data.PNG)

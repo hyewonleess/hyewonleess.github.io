@@ -19,7 +19,7 @@ sitemap:
 
 포스팅은 다음과 같은 두 단계로 나누어서 진행할 예정이다.
  + Part 1. Data Cleansing & EDA
- + Part 2. Model comparisons
+ + Part 2. ARIMA
  
  
 이번 포스팅인 Part 1에서는 기본적인 데이터 처리 및 이해를 위한 Data Cleansing 과 EDA 과정을 다루겠다!

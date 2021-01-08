@@ -73,4 +73,17 @@ ARIMA 모델링의 순서는 다음과 같다.
 
 ### (4) ARIMA 모델링
 파트 (3)에서 차분을 통해 우리는 ARIMA 모델의 차수 $(p,d,q) = (1,1,1)$ 를 만족한다고 예상할 수 있었다. (여기서 p는 AR 모델이 포함하는 이전 시점의 수, d는 차분 수, q는 MA 모델이 고려하는 이전 white noise 수)  이제 ARIMA 모델을 학습해보고 결과를 보자.
-![result](/assets/arima.PNG)
+![result](/assets/arima.PNG) 
+<br>
+ + ARIMA(1,1,1) 모델을 통해 나온 coefficients 로 얻은 모델 식: $Z_{t} = 8.63Z_{t-1} + 13.527a_{t-1}$  (상수항의 p-value는 0.9 이상으로 유의미하지 않으므로 제거한다)
+ + AIC = 3345 로 매우 크다. AIC는 작을수록 성능이 좋은데, 일단 여기서부터 ARIMA 모델은 메인페이지 데이터에 적합하지 않은 것을 알았다..
+
+#### Auto_arima
+파트 (3)에서 차분을 해 보았는데, AR와 MA 차수를 그래프만을 이용해 결정하는 것이 다소 헷갈리는 부분이 있었다. Python에서는 `auto_arima` 라는 함수를 제공하는데 이를 이용하면 다양한 조합의 p, q를 ARIMA 모델에 적용해 가장 좋은 성능을 내는 $(p,q)$의 조합을 찾을수 있다.
+![result](/assets/auto_arima.PNG) 
+ + Auto_arima 를 통해 얻은 가장 성능이 좋은 ARIMA 모델은 ARIMA(0,1,2) 이다. 이는 앞서 우리가 그래프를 통해 해석한 결과와 다르다. (이 역시도 데이터의 문제라고 보여진다.)
+
+#### White noise 검정
+ARIMA 모델에서 중요한 조건 중 하나는, 백색 소음(White noise)가 정규분포를 따르며 독립적이고 랜덤하게 발생한다는 가정이다. 우리가 구한 메인페이지 데이터의 ARIMA 모델의 백색소음이
+이 가정을 만족하는지 그래프를 통해 확인해보자.
+![result](/assets/whitenoise.png)

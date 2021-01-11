@@ -1,0 +1,40 @@
+---
+title:  "[Time Series Analysis] #2. Simple Prophet Model: 주식데이터 적용"
+categories:
+  - application
+tags:
+  - timeseries
+  - stocks
+toc: true
+use_math: true
+sitemap: 
+---
+
+내 깃허브 블로그 [첫 포스팅]은 주식데이터의 탐색에 관한 내용이었다. 오늘은 첫 포스팅에서 썼던 미래에셋 주식 데이터 중 '삼성전자'의 주가를 Prophet 이라는 시계열분석 모델을 이용해
+fit 하고 prediction도 해보는 포스팅을 해볼까 한다. 
+
+<br>
+
+## Preview
+### 1. Prophet 모델이란?
+**Prophet**은 페이스북에서 개발한 시계열 예측 모델이다. 지금까지 시계열분석 관련 공부 포스팅을 해오면서 시계열 데이터 예측에 쓰이는 다양한 모델과 기법들에 대해 공부했는데, 이 모델들과
+비교했을 때 Prophet이 가지는 장점은 이렇다.
+ 1) ARIMA/ARMA와 같이 정상성 여부를 확인하지 않아도 된다. 즉, 비정상성 시계열이어도 별다른 변환을 하지 않아도 된다.
+ 2) Holiday(연휴,휴일)을 추가하여 holiday에 따라 달라지는 데이터의 값을 반영할 수 있다.
+ 3) 파라미터들이 직관적이고, 한 번 보고 이해하고 구현하기 쉽다. <br>
+ 
+(이외 Prophet에 대한 자세한 설명은 <https://facebook.github.io/prophet/> 를 참고하자)
+이러한 장점들로 인해 시계열 예측을 할 때 Prophet 모델을 점점 많이 사용하고 있는 추세이다! 
+
+### 2. 사용 데이터
+Prophet 모델에 사용한 데이터는 2020 미래에셋 금융빅데이터 페스티벌에서 제공한 `stocks.csv` 중 **삼성전자**에 해당하는 데이터를 사용했다. 삼성전자 주식 데이터의 트렌드 그래프는
+[첫 포스팅]에 들어가면 볼 수 있다! <br>
+삼성전자 주가 데이터는 2019년 7월 1일부터 2020년 7월 28일까지의 주가를 포함하고 있다. 그리고 주식 거래가 이루어지지 않는 주말과 공휴일의 날짜는 포함되지 않는다.
+
+## Prophet Modeling with steps
+이제 본격적으로 Prophet 모델링을 해보자! 모델링 전, 데이터를 정제해야하는데 Prophet 모델의 input 데이터는 'ds' 라는 날짜 값을 가지는 변수, 'y'라는 예측해야 하는 변수를 포함해야 한다.
+즉, 본 데이터에서는 'ds'는 2019.7.1 ~ 2020.7.28 를, 'y'는 보통 주가의 기준이 되는 '종목종가'가 된다.
+
+
+<br>
+[첫 포스팅]: https://hyewonleess.github.io/application/stocks-explore/

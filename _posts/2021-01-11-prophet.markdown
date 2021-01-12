@@ -86,5 +86,41 @@ model4.add_seasonality(name='monthly',period=30.5,fourier_order=5)
 그 결과 감소구간(2020년 2월, 2020년 4월 부근)를 비롯해 전반적인 데이터의 트렌드를 제일 정확하게 반영해낸 것을 볼 수 있다!
 ![model3](/assets/model4.png)
 
+## Evaluation
+Prophet 모델이 전반적인 데이터의 트렌드를 정확하게 반영할수록 좋은 모델이라고 생각할 수 있다. 물론 어느정도 맞는 말이지만, future data를 예측할 때 기존 데이터를 너무 정확하게 
+반영하게 되면 overfitting이 발생하며 future data 에 대한 prediction 값들과 실제 값 사이의 오차가 크게 될 수 있다.
+<br>
+앞서 만든 Model 4개에 대해 train set(2019년 7월 1일 ~ 2020년 6월 30일) 에 model을 fitting한 후 test set(2020년 7월 1일 ~ 2020년 7월 28일)를 예측하여 성능을 비교해보자. 성능 평가를
+위한 metric으로는 MAE(mean absolute error)와 RMSE(root mean square error)을 사용하였다.
+<br>
+|metric|MAE|RMSE|
+|------|---|---|
+|Model 1|690|1115.71|
+|Model 2|730.78|1034.13|
+|Model 3|782.01|1080.23|
+|Model 4|751.8|1110.72|
+<br>
+ 1. MAE: MAE는 오차들의 절댓값의 평균이다. MAE의 장점은 outlier에 비교적 덜 민감하고 robust하다는 것이다.
+ 2. RMSE: RMSE는 보통 회귀 모델의 평가 metric으로 많이 쓰이는데, 오차제곱의 평균을 나타낸다. RMSE는 overfitting 여부를 판단할 때 유용하지만, outlier에 민감하다.
+<br>
+본 분석은 regression에 가깝기 때문에 MAE보다 RMSE가 더 유용한 지표라고 판단한다. RMSE를 기준으로 Model 2가 가장 높은 성능을 보이며, 그 다음으로는 Model 3의 성능이 높다. 
+그 이유는 무엇일까?
+ + Model 4는 필자가 삼성전자 주가 데이터의 트렌드를 최대한 많이 반영하고자 다양한 지표를 추가했다. 그 결과 기존 데이터에 overfiting되어 실제 예측을 진행했을 때는 성능이 비교적
+ 좋지 않게 나왔다.(1110.72) 
+ + Model 2와 Model 3는 적절히 트렌드도 잡아내면서 overfitting도 어느정도 방지하는데 비교적 성공한 모델처럼 보여진다. 
+
+---
+
+여기서 삼성전자 주가 데이터에 Simple Prophet 모델을 적용한 결과에 대한 포스팅을 마무리하겠다. 동시에, 그동안 계속 이어오던 시계열분석 포스팅의 마무리이기도 하다! 나중에 시계열분석
+기법이 더 익숙해져서 복잡한 모델링을 하게 되면 또 포스팅을 할 예정이다. (추가적으로 Prophet 모델의 장점 중 하나인 holiday 반영 성질을 사용하지 않았는데, 이는 주식 거래는 주말 및 공휴일에 이뤄지지 않기 때문에 아예 해당 날짜에 데이터가 없어서 사용하지 않았다.)
+
+
+<br>
+<br>
+**참고문헌**
+<https://zamezzz.tistory.com/279> <br>
+<https://predictor-ver1.tistory.com/4> <br>
+<https://hyperconnect.github.io/2020/03/09/prophet-package.html>
+
 <br>
 [첫 포스팅]: https://hyewonleess.github.io/application/stocks-explore/

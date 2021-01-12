@@ -10,7 +10,7 @@ use_math: true
 sitemap: 
 ---
 
-내 깃허브 블로그 [첫 포스팅]은 주식데이터의 탐색에 관한 내용이었다. 오늘은 첫 포스팅에서 썼던 미래에셋 주식 데이터 중 '삼성전자'의 주가를 Prophet 이라는 시계열분석 모델을 이용해
+내 깃허브 블로그 [첫 포스팅](https://hyewonleess.github.io/application/stocks-explore/)은 주식데이터의 탐색에 관한 내용이었다. 오늘은 첫 포스팅에서 썼던 미래에셋 주식 데이터 중 '삼성전자'의 주가를 Prophet 이라는 시계열분석 모델을 이용해
 fit 하고 prediction도 해보는 포스팅을 해볼까 한다. 
 
 <br>
@@ -125,5 +125,4 @@ Prophet 모델이 전반적인 데이터의 트렌드를 정확하게 반영할�
 <https://predictor-ver1.tistory.com/4> <br>
 <https://hyperconnect.github.io/2020/03/09/prophet-package.html>
 
-<br>
-[첫 포스팅]: https://hyewonleess.github.io/application/stocks-explore/
+

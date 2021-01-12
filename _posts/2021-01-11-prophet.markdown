@@ -94,12 +94,14 @@ Prophet 모델이 전반적인 데이터의 트렌드를 정확하게 반영할�
 앞서 만든 Model 4개에 대해 train set(2019년 7월 1일 ~ 2020년 6월 30일) 에 model을 fitting한 후 test set(2020년 7월 1일 ~ 2020년 7월 28일)를 예측하여 성능을 비교해보자. 성능 평가를
 위한 metric으로는 MAE(mean absolute error)와 RMSE(root mean square error)을 사용하였다.
 <br>
+
 |metric|MAE|RMSE|
 |------|---|---|
 |Model 1|690|1115.71|
 |Model 2|730.78|1034.13|
 |Model 3|782.01|1080.23|
 |Model 4|751.8|1110.72|
+
 <br>
  1. MAE: MAE는 오차들의 절댓값의 평균이다. MAE의 장점은 outlier에 비교적 덜 민감하고 robust하다는 것이다.
  2. RMSE: RMSE는 보통 회귀 모델의 평가 metric으로 많이 쓰이는데, 오차제곱의 평균을 나타낸다. RMSE는 overfitting 여부를 판단할 때 유용하지만, outlier에 민감하다.

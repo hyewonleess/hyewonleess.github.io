@@ -13,8 +13,6 @@ sitemap:
 내 깃허브 블로그 [첫 포스팅](https://hyewonleess.github.io/application/stocks-explore/)은 주식데이터의 탐색에 관한 내용이었다. 오늘은 첫 포스팅에서 썼던 미래에셋 주식 데이터 중 '삼성전자'의 주가를 Prophet 이라는 시계열분석 모델을 이용해
 fit 하고 prediction도 해보는 포스팅을 해볼까 한다. 
 
-<br>
-
 ## Preview
 ### Prophet 모델이란?
 **Prophet**은 페이스북에서 개발한 시계열 예측 모델이다. 지금까지 시계열분석 관련 공부 포스팅을 해오면서 시계열 데이터 예측에 쓰이는 다양한 모델과 기법들에 대해 공부했는데, 이 모델들과
@@ -92,7 +90,9 @@ Prophet 모델이 전반적인 데이터의 트렌드를 정확하게 반영할�
 반영하게 되면 overfitting이 발생하며 future data 에 대한 prediction 값들과 실제 값 사이의 오차가 크게 될 수 있다.
 <br>
 앞서 만든 Model 4개에 대해 train set(2019년 7월 1일 ~ 2020년 6월 30일) 에 model을 fitting한 후 test set(2020년 7월 1일 ~ 2020년 7월 28일)를 예측하여 성능을 비교해보자. 성능 평가를
-위한 metric으로는 MAE(mean absolute error)와 RMSE(root mean square error)을 사용하였다.
+위한 metric으로는 MAE(mean absolute error)와 RMSE(root mean square error)을 사용하였다. 예측 plot은 다음과 같이 그릴 수 있다.
+![plot](/assets/model1_pred.png)
+
 <br>
 
 |metric|MAE|RMSE|

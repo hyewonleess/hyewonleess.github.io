@@ -35,7 +35,7 @@ Prophet 모델에 사용한 데이터는 2020 미래에셋 금융빅데이터 �
 이제 본격적으로 Prophet 모델링을 해보자! 모델링 전, 데이터를 정제해야하는데 Prophet 모델의 input 데이터는 'ds' 라는 날짜 값을 가지는 변수, 'y'라는 예측해야 하는 변수를 포함해야 한다.
 즉, 본 데이터에서는 'ds'는 2019.7.1 ~ 2020.7.28 를, 'y'는 보통 주가의 기준이 되는 '종목종가'가 된다. 이제부터 이 데이터셋을 df라고 칭한다.
 
-### Model 1: basic Prophet model
+### Model 1: Basic Prophet model
 Model 1은 아무런 파라미터 처리를 하지 않은 기본값으로 세팅된 Prophet 모델이다. 코드로는 다음과 같이 구현하면 된다.
 ```python
 model1 = Prophet() # baisc prophet model
@@ -45,7 +45,7 @@ forecast = model1.predict(df)
 Model 1을 이용해 df 데이터를 fit 한 결과는 아래와 같다. Model 1을 쓰면 대략적인 주가 데이터의 추세는 반영하지만, 급격히 감소하거나 증가하는 구간의 값들을 잘 반영하지 못한다.
 ![model1](/assets/model1.png)
 
-### Model 2: Trend change points 조정
+### Model 2: Add Trend change points 
 Model 1은 전반적인 트렌드는 반영하지만, 세부적인 데이터의 트렌드(증감 부분 등등)을 잡아내지 못하는 경향이 있다. Prophet 모델에서는 **trend change points** 라는 것을 조정함으로써
 트렌드를 좀 더 세부적으로 반영할 수 있다. Change point라는 것은 데이터의 트렌드가 변하는 지점을 말한다(예를 들면 상승->하락 지점). 기본적인 파라미터는 다음과 같다.
  + `changepoint_range`: 앞에서부터 몇 %의 데이터에서 change point를 지정할지를 선택하는 파라미터다. 예를 들어, 0.8이면 앞에서부터 80% 만큼의 데이터에서 change point를 잡는다. 이 파라미터를 너무 높게 잡으면 기존 데이터의 트렌드를 과하게 반영해 future 데이터를 예측할 때 overfitting이 발생할 수 있다.
@@ -62,6 +62,29 @@ model2 = Prophet(changepoint_range=0.8, changepoint_prior_scale= 0.2)
 ```
 Model 2를 이용해 fit한 결과는 아래와 같다. Model 1에 비해 세부적인 추세는 잘 반영하나, 아직도 몇몇 구간에서는 트렌드를 반영하지 못한다.
 ![model2](/assets/model2.png)
+
+### Model 3: Add monthly seasonality
+Model 1과 Model 2에서는 오로지 weekly seaonsality 만을 반영한다. 하지만 삼성전자의 월별 평균 주가를 비교했을 때, 월별로 차이가 다소 극명했다. 따라서 Model 2에 monthly seasonality를
+반영하도록 설정해준다. Prophet 모델에는 monthly seasonality를 파라미터로 지정할 수 없기 때문에 `add_seasonality` 를 이용해 직접 지정해줘야한다! `period`에는 30일과 31일의 평균인 30.5 를 지정하겠다.
+
+```python
+model3 = Prophet(changepoint_range=0.8, changepoint_prior_scale= 0.2)
+model3.add_seasonality(name='monthly',period=30.5,fourier_order=5)
+```
+Model 3를 이용해 df를 fit하면 확실히 Model 1과 Model 2에 비해 2020년 2월 부근에서의 급락, 2019년 12월에서의 감소 추세를 잘 반영한다. 즉 Model 2보다도 세밀하게 삼성전자 주가 데이터의 트렌드를 잡아낸다. 하지만 여전히 감소구간(2020년 2월, 2020년 4월 부근)에서의 데이터의 트렌드는 반영하지 못한다. 
+![model3](/assets/model3.png)
+
+### Model 4: Multiplicative seasonality
+Model 3에서의 fitting 결과에 아직도 아쉬움이 남아 overfitting 일 수 있지만, 삼성전자 주가 데이터 트렌드를 좀 더 정확하게 반영하기 위해 seasonality를 multiplicative로 설정했다.
+이전 시계열분석 포스팅에서 다뤘는데, 데이터의 진폭이 시간에 따라 일정하지 않고 증가하거나 감소하면 multiplicative seasonality의 성질을 가지고 있다고 한다. 삼성전자 주가 데이터의 진폭 역시 시간이 지날수록 어느정도 증가하는 경향을 보이기 때문에 seasonality를 multiplicative로 설정해주었다.
+
+```python
+model4 = Prophet(changepoint_range=0.8, changepoint_prior_scale= 0.3, seasonality_mode='multiplicative')
+model4.add_seasonality(name='monthly',period=30.5,fourier_order=5)
+```
+
+그 결과 감소구간(2020년 2월, 2020년 4월 부근)를 비롯해 전반적인 데이터의 트렌드를 제일 정확하게 반영해낸 것을 볼 수 있다!
+![model3](/assets/model4.png)
 
 <br>
 [첫 포스팅]: https://hyewonleess.github.io/application/stocks-explore/

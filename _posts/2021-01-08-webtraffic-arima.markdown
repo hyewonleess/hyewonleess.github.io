@@ -1,5 +1,5 @@
 ---
-title:  "[Time Series Analysis] #1. Simple Web Traffic Data Analysis - Part 2"
+title:  "[Time Series Analysis] #4. Simple Web Traffic Data Analysis - Part 2"
 categories:
   - application
 tags:

@@ -40,8 +40,7 @@ Feature selection method는 크게 다음의 세 타입으로 나눌 수 있다.
  #### (2) Variance Threshold
  Variance threshold는 말 그대로 변수의 variance가 지정한 threshold 보다 작으면 drop하는 방법이다. 변수의 variance가 너무 작으면 target을 예측하는 성능이 낮아진다고 판단하는데, 어떤 변수의 variance가 작으면 변수의 각 value가 target에 미치는 영향의 차이는 미비하기 때문이다. 이러한 이유로 feature을 선택할 때 이 방법을 사용하기도 한다.
 <br>
-Variance threshold 기법의 단점은 개별 변수의 variance만 고려한다는 것이다. 실제 데이터의 변수들은 상관관계를 갖는데, 이 방법은 개별 변수의 분산만 계산하여 feature을 선택하기 때문에 모델의
-정확도가 낮아지는 단점이 있다.
+Variance threshold 기법의 단점은 개별 변수의 variance만 고려한다는 것이다. 예를 들면, 만약 어떤 변수의 variance가 작더라도 target 변수와 상관관계가 높으면 target을 예측하는데 영향을 줄 수 있다. 하지만 variance가 작다는 이유로 이 변수를 제거하면 모델의 성능은 낮아질 것이다.
 
  #### (3) Correlation coefficient
  이 방법은 매우 간단하다. Target 변수와 개별 feature 변수의 상관계수를 구하고, 상관계수의 절댓값이 큰 feature를 선택하는 방법이다. 

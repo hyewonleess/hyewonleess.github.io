@@ -120,7 +120,7 @@ Prophet 모델이 전반적인 데이터의 트렌드를 정확하게 반영할�
 
 <br>
 <br>
-**참고문헌**
+**참고문헌**<br>
 <https://zamezzz.tistory.com/279> <br>
 <https://predictor-ver1.tistory.com/4> <br>
 <https://hyperconnect.github.io/2020/03/09/prophet-package.html>

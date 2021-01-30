@@ -36,11 +36,14 @@ Filter's method는 세 가징 method 중 가장 심플하다고 말할 수 있�
  
 #### (1) Feature importance
 Feature importance는 트리기반 알고리즘을 사용하는 모델에 대해 적용되는 방법이다. 트리기반 모델을 학습하면 각 feature 마다 feature importance를 추출할 수 있는데, 여기서 말하는 feature importance는 information gain과 관련이 있다. 트리 모델은 불순도(impurity)를 최소화 하는 방향으로 분기를 한다. 예를 들어 트리 분기를 할 때, 분기를 할 node를 선택하는데 이 때 information gain을 이용한다. Information gain은 쉽게 말하면 (상위 노드의 불순도 - 분기한 후 좌/우 노드의 불순도) 를 계산한 것으로, information gain이 크면 노드가 분기했을 때 불순도가 많이 감소한다는 것을 의미한다. 요약하면 트리 모델은 information gain이 큰 node를 선택해 그 node를 기준으로 트리를 분기하게 되는 것이다. 
-<br>
 Feature importance는 해당 feature가 얼마나 불순도를 감소시켰는지를 기준으로 계산된다. 즉, 트리기반 모델에서는 feature가 불순도를 많이 감소시킬수록 importance가 커진다.
 
 <br>
-House price 데이터를 RandomForestRegressor로 학습한 후, 가장 feature importance가 높은 top 10개의 변수를 추출하였다.
+Feature selection을 위해 feature importance 방법을 적용하면, feature importance가 큰 변수만을 선택하여 모델을 학습하는 것이다! 하지만 cutoff 기준이 주관적이기 때문에 몇개의 feauture을
+선택하느냐에 따라 모델의 성능이 달라진다는 단점이 있다.
+
+<br>
+House price 데이터를 RandomForestRegressor로 학습한 후, 가장 feature importance가 높은 top 10개의 변수를 추출하였다. 이렇게 tree 기반 모델을 사용하면 `.feature_importances_` 속성을 이용하여 각 변수의 feature importance를 추출할 수 있다.
 ![d](/assets/feat_imp.png)
 
 

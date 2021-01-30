@@ -28,14 +28,22 @@ Feature selection method는 크게 다음의 세 타입으로 나눌 수 있다.
  3. Embedded methods
  
 ### 1. Filter's methods
-Filter's method는 세 가징 method 중 가장 심플하다고 말할 수 있는 방법으로, 일변량 통계량(univariate statistics)을 이용해 feature의 특성을 추출하고 선택하는 방법이다. 다른 변수들과의 관계성은 고려하지 않고 단일 변수를 통계량을 이용해 평가하기 때문에 다른 methods에 비해 계산량과 시간이 적게 소모된다는 장점이 있다. 대표적인 filter's methods feature selection 방법에는
- (트리기반) feature importance, variance threshold, corrleation coefficient 방법이 있다.
+Filter's method는 세 가징 method 중 가장 심플하다고 말할 수 있는 방법으로, 일변량 통계량(univariate statistics)을 이용해 feature의 특성을 추출하고 선택하는 방법이다. 다른 변수들과의 관계성은 고려하지 않고 단일 변수를 통계량을 이용해 평가하기 때문에 다른 methods에 비해 계산량과 시간이 적게 소모된다는 장점이 있다. 또한 모델 학습 없이 feature selection을 할 수 있는 방법이다.하지만 Filter's methods의 경우 다른 변수와의 상관관계 등을 고려하지 않기 때문에 다른 wrapper나 embedded methods에 비해 모델 성능이 떨어진다는 단점이 있다.
+대표적인 filter's methods feature selection 방법에는 **(트리기반) feature importance, variance threshold, corrleation coefficient** 방법이 있다. 
+ 
+<br>
+시뮬레이션을 위해 House price 데이터를 이용한다. 이 포스팅에서는 간단한 방법론 설명만 할 것이기 때문에 편의를 위해 object 변수는 제거하였다. 그리도 missing value는 각 변수의 mean으로 impute 했다.
  
 #### (1) Feature importance
 Feature importance는 트리기반 알고리즘을 사용하는 모델에 대해 적용되는 방법이다. 트리기반 모델을 학습하면 각 feature 마다 feature importance를 추출할 수 있는데, 여기서 말하는 feature importance는 information gain과 관련이 있다. 트리 모델은 불순도(impurity)를 최소화 하는 방향으로 분기를 한다. 예를 들어 트리 분기를 할 때, 분기를 할 node를 선택하는데 이 때 information gain을 이용한다. Information gain은 쉽게 말하면 (상위 노드의 불순도 - 분기한 후 좌/우 노드의 불순도) 를 계산한 것으로, information gain이 크면 노드가 분기했을 때 불순도가 많이 감소한다는 것을 의미한다. 요약하면 트리 모델은 information gain이 큰 node를 선택해 그 node를 기준으로 트리를 분기하게 되는 것이다. 
 <br>
 Feature importance는 해당 feature가 얼마나 불순도를 감소시켰는지를 기준으로 계산된다. 즉, 트리기반 모델에서는 feature가 불순도를 많이 감소시킬수록 importance가 커진다.
- 
+
+<br>
+House price 데이터를 RandomForestRegressor로 학습한 후, 가장 feature importance가 높은 top 10개의 변수를 추출하였다.
+![d](/assets/feat_imp.png)
+
+
  
 #### (2) Variance Threshold
 Variance threshold는 말 그대로 변수의 variance가 지정한 threshold 보다 작으면 drop하는 방법이다. 변수의 variance가 너무 작으면 target을 예측하는 성능이 낮아진다고 판단하는데, 어떤 변수의 variance가 작으면 변수의 각 value가 target에 미치는 영향의 차이는 미비하기 때문이다. 이러한 이유로 feature을 선택할 때 이 방법을 사용하기도 한다.

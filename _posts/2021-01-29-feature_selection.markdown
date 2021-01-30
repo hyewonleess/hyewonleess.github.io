@@ -55,7 +55,7 @@ train_thresh = selector.fit(train)
  
 
 ### 2. Wrapper's methods
-Wrapper's methods는 filter method와 달리 모델을 학습하면서 feature을 선택하는 과정이다. Feauture을 하나씩 제거하거나 더하면서(쉽게 말하면 모든 feature subset을 하나씩 학습하면서) 가장 성능이 높게 나오는 feature set을 선택하는 방법이 바로 wrapper's method이다. 이 방법은 Filter's methods에 비해 computation 양이 많고 시간도 오래 걸린다는 단점이 있지만, 모든 feature subset을 평가하기 때문에 filter's methods 보다 우수한 성능을 낼 수 있다는 장점이 있다. 대표적인 wrapper's methods 방법에는 <mark style='background-color: #fff5b1'> Recursive Feature Elimination(RFE) <\mark> 가 있다.
+Wrapper's methods는 filter method와 달리 모델을 학습하면서 feature을 선택하는 과정이다. Feauture을 하나씩 제거하거나 더하면서(쉽게 말하면 모든 feature subset을 하나씩 학습하면서) 가장 성능이 높게 나오는 feature set을 선택하는 방법이 바로 wrapper's method이다. 이 방법은 Filter's methods에 비해 computation 양이 많고 시간도 오래 걸린다는 단점이 있지만, 모든 feature subset을 평가하기 때문에 filter's methods 보다 우수한 성능을 낼 수 있다는 장점이 있다. 대표적인 wrapper's methods 방법에는 <mark style='background-color: #fff5b1'> Recursive Feature Elimination(RFE) </mark> 가 있다.
 
 #### (1) RFE
 RFE는 전체 feature을 포함하여 모델을 학습하고 이후 feature을 하나씩 제거하면서 가장 성능이 놓은 feature subset을 결정하는 방법이다. 이 방법은 사이킷런 패키지의 `RFE` 를 이용하여 구현할 수 있다. RFE를 conduct 할 때, `n_features_to_select`를 지정해준다. 최종적으로 선택할 feature의 수를 결정하는 파라미터이다. 아래 예시에서는 20개의 feature을 선택하도록 설정했다. 그리고
@@ -89,7 +89,9 @@ Feature selection을 위해 feature importance 방법을 적용하면, feature i
 House price 데이터를 RandomForestRegressor로 학습한 후, 가장 feature importance가 높은 top 10개의 변수를 추출하였다. 이렇게 tree 기반 모델을 사용하면 `.feature_importances_` 속성을 이용하여 각 변수의 feature importance를 추출할 수 있다.
 ![d](/assets/feat_imp.png)
 
+---
 
+이번 포스팅에서는 다양한 feature selection 방법에 대해 살펴보았다! 다음 포스팅에서는 요즘 머신러닝에서 핫한 feature selection 방법인 Permutation importance와 SHAP에 대해 포스팅 하겠다! :)
 
 <br>
 **참고문헌**

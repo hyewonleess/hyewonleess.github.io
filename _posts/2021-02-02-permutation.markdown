@@ -65,7 +65,7 @@ perm = PermutationImportance(model, scoring = 'neg_mean_squared_error', n_iter =
 eli5.show_weights(perm, feature_names = X_val.columns.tolist())
 ```
 Kaggle의 house price 데이터를 적용하여 permutation importance를 구하면 다음과 같이 결과를 출력할 수 있다.
-![perm](/assests/perm.PNG)
+![perm](/assets/perm.PNG)
 
 ---
 이번 포스팅에서는 Permutation importance에 대해 간단히 살펴보았다. 다음 포스팅에서는 요즘 머신러닝에서 가장 많이 쓰이는 SHAP에 대해 다룰 예정이다!

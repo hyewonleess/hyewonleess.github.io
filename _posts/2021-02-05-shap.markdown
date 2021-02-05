@@ -1,0 +1,14 @@
+---
+title:  "[Feature Selection] #3. SHAP"
+categories:
+  - theory
+tags:
+  - feature selection
+  - SHAP
+  - modeling
+toc: true
+use_math: true
+sitemap: 
+---
+
+Feature selection 시리즈 포스팅의 마지막! 이번 포스팅에서는 Kaggle과 같은 데이터분석 플랫폼에서도 많이 쓰이는 SHAP 에 대해 다룬다.

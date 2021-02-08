@@ -54,4 +54,17 @@ SHAP에서 지원하는 feature 관련 그래프는 다음과 같다.
 
 이제 5가지의 그래프를 어떻게 구현하는지, 어떻게 해석할 수 있는지에 대해 하나씩 설명해보도록 하겠다.
 
+### (1) Feature importance(변수중요도)
+앞서 다루었던 tree 기반 feature importance, permutation importance와 마찬가지로 SHAP에서도 feature importance를 추출할 수 있다. SHAP에서의 feature importance는 앞서 설명했듯이, 각 feature의 shapley value의 가중평균으로 계산한다. SHAP에서의 변수중요도는 `summary_plot` 으로 그래프를 그릴 수 있다. 우선 트리기반모델인 RandomForestRegressor을 사용했기 때문에 model에 shap.TreeExplainer을 적용한 후 X_train 데이터를 기반으로 shap_value를 추출한다. 그리고 `summary_plot`에서 `plot_type = 'bar'`로 지정하면 우리가 흔히 그리는 feature importance plot을 그릴 수 있다.
+```python
+model = RandomForestRegressor(n_estimators = 200, max_depth = 10, random_state = 0)
+model.fit(X_train, y_train)
 
+shap_imp = shap.TreeExplainer(model).shap_values(X_train)
+shap.summary_plot(shap_imp, X_train, plot_type = 'bar')
+```
+![fi](/assets/shap_featimp.png)
+<br>
+**[해석]**
+ + 각 변수의 SHAP 변수 중요도를 알 수 있다.
+ + 개별 변수의 변수 중요도는 파악할 수 있지만, target value와 어떤 관계가 있는지는 파악하기 힘들다.

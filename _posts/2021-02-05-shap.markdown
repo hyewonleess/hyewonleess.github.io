@@ -20,7 +20,7 @@ Feature selection 시리즈 포스팅의 마지막! 이번 포스팅에서는 Ka
 ## 1. Shapley value
 SHAP에 대해 이해하기 위해선 게임이론의 shapley value에 대한 이해가 선행되어야 한다. Shapley value의 기본 아이디어는 모든 변수 조건 조합에서 특정 변수가 미치는 영향(marginal contribution)을 측정하는 것이다! 말로만 설명하면 이해하기 어렵기 때문에 간단한 예시와 함께 살펴보자.
 <br>
-### (1) Example: Hotel price
+### Example: Hotel price
 호텔 가격을 책정하는데 다음과 같은 요소들이 고려된다고 가정하자: **주변에 공원 여부, 면적 100, 3층, 반려동물 허용 여부** <br>
 여기서 우리는 **반려동물 허용여부**가 목적변수인 호텔 가격에 미치는 영향을 측정하는 것이 목표이다. '반려동물 허용여부'를 제외한 다른 변수들은 다음과 8개의 경우로 조합될 수 있다.
  + no feature
@@ -34,9 +34,24 @@ SHAP에 대해 이해하기 위해선 게임이론의 shapley value에 대한 �
 
 <br>
 8가지의 변수 조합 각각으로부터 '반려동물 허용여부'가 호텔 가격에 미치는 영향의 marginal contribution을 계산하여 가중평균을 내면 최종적인 '반려동물 허용여부'의 영향을 계산할 수 있다.
+이 포스트에서는 자세한 수식은 설명하지 않겠다. Shapley value에 대한 자세한 수식은 이 [링크](https://christophm.github.io/interpretable-ml-book/shapley.html#shapley)를 참고하면 된다.
 
 
 ## 2. SHAP
-Shapley value에 대해 알아봤으니 이제 본격적으로 SHAP에 대해 알아보자! 데이터를 SHAP을 적용했을 때 얻을 수 있는 그래프와 그 해석에 대해 중점적으로 알아볼 것이다.
+Shapley value에 대해 알아봤으니 이제 본격적으로 SHAP에 대해 알아보자! 데이터를 SHAP을 적용했을 때 얻을 수 있는 그래프와 그 해석에 대해 중점적으로 알아볼 것이다. 사용한 데이터는
+이전 포스팅들과 마찬가지로 Kaggle의 House Price 데이터를 간단하게 가공해서 사용하였다.
+
+<br>
+Python에서 SHAP을 구현하기 위해서는 `pip install shapley`를 통해 해당 패키지를 먼저 설치해줘야한다. 그 후 `import shap` 을 이용해 SHAP을 구현하기 위한 함수, 메소드를 불러온다.
+<br>
+SHAP에서 지원하는 feature 관련 그래프는 다음과 같다.
+ 1. Feature importance plot
+ 2. Summary plot
+ 3. Dependence plot
+ 4. Force plot
+ 5. Decision plot
+<br>
+
+이제 5가지의 그래프를 어떻게 구현하는지, 어떻게 해석할 수 있는지에 대해 하나씩 설명해보도록 하겠다.
 
 

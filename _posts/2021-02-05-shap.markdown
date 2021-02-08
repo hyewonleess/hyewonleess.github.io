@@ -79,7 +79,7 @@ Feature importance를 통해 개별 변수의 중요도는 알 수 있지만, ta
 <br>
 **[해석]**
  + $x$축: SHAP value, $y$축: 각 feature(위에서부터 변수중요도가 큰 feature)
- + <font color='red'> 빨간색: 큰 feature 값, <font color='blue'> 파란색 </font>: 작은 feature 값
+ + <font color='red'> 빨간색 </font>: 큰 feature 값, <font color='blue'> 파란색 </font>: 작은 feature 값
  + 예를 들어, **OverallQual**의 경우 feature value가 큰 값들의 SHAP value가 크다. 즉, feature 값이 클수록 target 값이 커진다(양의 상관관계)는 것을 알 수 있다. 반대로 **BsmtUnfSF**는     feature 값이 크면 shap value가 작아져 feature과 shap value가 음의 상관관계를 이룬다.
 
 <br>

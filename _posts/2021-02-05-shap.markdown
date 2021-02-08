@@ -80,7 +80,7 @@ Feature importance를 통해 개별 변수의 중요도는 알 수 있지만, ta
 **[해석]**
  + $x$축: SHAP value, $y$축: 각 feature(위에서부터 변수중요도가 큰 feature)
  + <font color='red'> 빨간색 </font>: 큰 feature 값, <font color='blue'> 파란색 </font>: 작은 feature 값
- + 예를 들어, **OverallQual**의 경우 feature value가 큰 값들의 SHAP value가 크다. 즉, feature 값이 클수록 target 값이 커진다(양의 상관관계)는 것을 알 수 있다. 반대로 **BsmtUnfSF**는     feature 값이 크면 shap value가 작아져 feature과 shap value가 음의 상관관계를 이룬다.
+ + 예를 들어, **OverallQual**의 경우 feature value가 큰 값들의 SHAP value가 크다. 즉, feature와 target이 양의 상관관계를 가진다는 것을 알 수 있다. 반대로 **BsmtUnfSF**는 feature 값이 크면 shap value가 작아져 feature과 shap value가 음의 상관관계를 이룬다.
 
 <br>
 이처럼 summary plot을 이용하면 각 feature가 target value와 어떤 상관관계가 있는지 쉽게 확인할 수 있다. **Feature와 target의 상관관계 해석의 용이성**이 summary plot의 장점이다!
@@ -106,4 +106,51 @@ shap.dependence_plot('GrLivArea', shap_imp, X_train)
  
 ### Local한 해석이 가능한 그래프들
 ### (4) Force plot
-Forceplot
+Force plot은 머신러닝 모델을 local하게 해석할 수 있는 그래프 중 하나이다. Force plot을 이용하면 개별 데이터에서 각 feature가 target에 어떤 영향을 줬는지를 해석할 수 있다. 이 그래프를 그릴 때는 전체 row를 사용하는 것이 아니라, 한 개의 row만 사용하여 개별 데이터와 모델의 관계를 해석한다.
+아래 코드와 같이 21번째 row에 속하는 데이터만을 이용해 force plot을 그린다.
+```python
+explainer = shap.TreeExplainer(model)
+shap_values = explainer.shap_values(X_val)
+shap.force_plot(explainer.expected_value, shap_values[20,:], X_val.iloc[20,:])
+```
+![fi](/assets/shap_force1.png)
+<br>
+
+**[해석]**
+ + 굵은 글씨로 써있는 숫자는 해당 데이터의 target 값을 나타내고, base value는 X_val에 속하는 target value의 평균을 나타낸다.
+ + <font color='red'> 빨간색 </font>은 target 변수의 값을 높게 만드는 feature들을 나타내고, <font color='blue'> 파란색 </font>은 반대로 target 변수의 값을 낮게 만드는 feature들을 나타낸다. feature이름 옆에 써있는 숫자는 해당 데이터의 feature의 값을 나타낸다.
+ + Positive/negative impact 여부를 확인하기 위해서는 각 feature의 평균과 비교를 해야 한다. 예를 들어, **GarageArea** 값은 720이고 평균은 470 인데, 평균보다 GarageArea의 값이 크면 House Price가 높아지므로 GarageArea는 House price에 positive한 영향을 준다고 해석할 수 있다. 반대로, 어떤 변수 A의 값이 A의 평균보다 낮은데 target 값이 높아졌다면, 변수 A는 target에 negative한 영향을 미치는 것이다. 이렇게 평균과 일일히 비교해아 하는 것이 force plot의 단점이다.
+ 
+### (5) Decision plot
+Decision plot은 force plot과 마찬가지로 local한 해석이 가능한 그래프이며, force plot의 단점을 보완한 그래프이다. Force plot의 경우 개별 feature가 target에 어떤 영향을 주는지를 해석할 수 있다. `decision_plot` 함수를 이용하여 그래프를 그릴 수 있다.
+```python
+shap.decision_plot(explainer.expected_value, shap_values[50,:], X_val.iloc[50,:])
+```
+![fi](/assets/shap_decision1.png)
+<br>
+
+**[해석]**
+ + 회색 수직선은 RandomForestRegressor 모델의 base 값이다.
+ + 괄호안에 써진 숫자는 개별 데이터의 feauture가 값는 값이다.
+ + 빨간선은 SHAP value를 나타낸다. 즉 feature 중요도를 나타내는 것인데, 아래에서부터 시작해 누적하여 맨 위로 가면 최종적으로 개별 데이터의 target value에 도달한다(상단 바에 있음). 
+ + 해당 feature에서 빨간선이 왼쪽으로 가면 이 feature가 target value에 negative impact를 주는 것이고 오른쪽으로 가면 target에 positive한 impact를 준다고 해석할 수 있다.
+
+<br>
+그리고 force plot과 달리 decision plot에서는 여러개의 데이터를 한꺼번에 plot할 수 있다.
+![fi](/assets/shap_decision2.png)
+<br>
+위 그래프와 같이 개별 데이터가 target value를 얻기까지 각 feature가 어떤 영향을 미치는지를 한눈에 파악할 수 있다. 
+
+<br>
+Decision plot를 통해 오늘 포스팅한 내용 말고도 clustering, cumulative importance 등 다양한 정보를 얻을 수 있다. 오늘은 기본적인 그래프의 특징과 해석을 소개하는 포스팅이니 생략했지만, 기회가 되면 더 깊은 내용도 다루도록 하겠다.
+
+---
+
+이렇게 feature selection 및 해석 포스팅의 대장정이 끝났다! 이제 다양한 데이터에 공부한 내용들을 적용하는 연습을 하면 될 것 같다 :)
+
+<br>
+<br>
+
+**참고문헌** <br>
+<https://towardsdatascience.com/introducing-shap-decision-plots-52ed3b4a1cba> <br>
+<https://towardsdatascience.com/explain-your-model-with-the-shap-values-bc36aac4de3d>

@@ -43,7 +43,7 @@ House Price 데이터에서 target은 Sale Price(판매가)이다. 예시로 전
 Python에서는 다음과 같이 구현할 수 있다.
 ```python
 from sklearn.inspection import plot_partial_dependence # PDP를 위해 필요한 패키지 로드
-features = [3, 5] # feature columns index  자정(대신 feautre명으로 지정해도 무방하다)
+features = [3, 5] # feature columns index  정(대신 feautre명으로 지정해도 무방하다)
 plot_partial_dependence(model, X_train, features, line_kw={"color": "red"})
 ```
 

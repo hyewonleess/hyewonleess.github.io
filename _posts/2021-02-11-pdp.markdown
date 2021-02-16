@@ -1,5 +1,5 @@
 ---
-title:  "[Interpretable ML] #1. Partial Dependence Plot"
+title:  "[Interpretable ML] #1. Partial Dependence Plot(PDP)"
 categories:
   - theory
 tags:
@@ -16,3 +16,7 @@ sitemap:
 머신러닝의 해석 첫 포스팅에서는 머신러닝 해석에 가장 기본적으로 사용되는 plot인 <mark style='background-color: #fff5b1'> Partial Dependence Plot </mark>에 대해 다루도록 하겠다.
 
 ## Partial Dependence Plot
+PDP는 특정 feature가 target에 미치는 한계효과(marginal effect)를 파악하고자 할 때 사용하는 plot이다. 간단히 수식으로 먼저 살펴보자!
+Partial dependence function은 다음과 같이 정의된다.
+$$ \hat{f_{x_{S}}} = \int \hat_{f(x_{S}, x_{C})} dP(x_{C}) = \frac {1}{n} \sum_{i=1}^n \hat_{f(x_{S}, x_{C}^{(i)})} $$
+여기서 $ x_{C}$는 PDP에서 해석하고자하는 feature set을 나타내고 나머지 해석에 관심이 없는 변수들의 set은 $x_{C}$로 나타낸다. 

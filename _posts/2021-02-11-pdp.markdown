@@ -18,11 +18,54 @@ sitemap:
 ## Partial Dependence Plot
 PDP는 특정 feature가 target에 미치는 한계효과(marginal effect)를 파악하고자 할 때 사용하는 plot이다. 간단히 수식으로 먼저 살펴보자!
 Partial dependence function은 다음과 같이 정의된다.(Marginal distribution을 구하는 식과 꽤나 비슷한 걸 확인할 수 있다)
-$ \hat{f_{x_{S}}} = \int \hat_{f(x_{S}, x_{C})} \, dP(x_{C}) = \frac {1}{n} \sum_{i=1}^{n} \hat_{f(x_{S}, x_{C}^{(i)})} $
-여기서 $ x_{C}$는 PDP에서 해석하고자하는 feature set을 나타내고 나머지 해석에 관심이 없는 변수들의 set은 $x_{C}$로 나타낸다. Partial dependence function은 $x_{S}$ 의 한계효과를 계산하는 것이 목적이기 때문에, $x_{S}$에 대해서 integral 혹은 sigma sum을 적용함으로써 얻을 수 있다. 이 때 주의해야 할 점은 partial dependence function을 구할 때 $x_{S}$와 $x_{C}$는 독립이어야 한다. 
+$ \hat{f_{x_{S}}} =  \frac {1}{n} \sum_{i=1}^{n} \hat_{f(x_{S}, x_{C}^{(i)})} $
+여기서 $ x_{C}$는 PDP에서 해석하고자하는 feature set을 나타내고 나머지 해석에 관심이 없는 변수들의 set은 $x_{C}$로 나타낸다. 그리고 $x_{C}^{(i)}$ 는 주어진 데이터가 총 $n$개 일 때, $i$번째 데이터의 관심대상이 아닌 변수들의 set을 나타낸다. 즉 이 함수는 각 데이터셋에서 $x_{S}$의 marginal effect를 계산하고 평균을 냄으로써 $x_{C}$가 target value에 미치는 global한 한계효과를 계산한다.
+
+PDP를 사용할 때 주의해야 할 점은 partial dependence function을 구할 때 $x_{S}$와 $x_{C}$는 독립이어야 한다. 이 독립성에 대한 가정이 PDP의 단점이기도 한데, 그 부분은 뒷부분에서 설명하도록 하겠다.
 
 
 이제 PDP 기법을 python으로 House Price 데이터에 적용해보고 각 plot을 해석해보자.
 
 ### (1) 개별 변수의 PDP
-PDP로 기본적으로 해석할 수 있는 것은 **개별 변수와 target value와의 관계**이다.
+PDP로 기본적으로 해석할 수 있는 것은 **개별 변수와 target value와의 관계**이다. House Price 데이터에서 target은 Sale Price(판매가)이다. 예시로 전체적인 집의 질을 등급으로 나타내는 OverallQual 변수와 집이 지어진 연도를 나타내는 YearBuilt가 Sale Price와 어떤 관계를 가지는지를 PDP로 어떻게 해석할 수 있는지 살펴보자.<br>
+
+![pic](/assets/pdp1.png)
+<br>
+ 1. OverallQual은 1 ~ 10 으로 집의 등급을 나타내는데, 높을수록 집의 질이 좋은 것이다. OverallQual과 Sale Price에 대한 PDP를 보면 OverallQual이 6이상이 되면 Sale Price아 급격히 상승하는 것을 볼 수 있다. 요약해서 말하면, OverallQUal이 높아질수록(집의 질이 좋을수록) 집의 Sale Price는 증가하는데, 특히 Quality가 6등급 이상이면 Sale Price가 기하급수적으로 높아진다. 즉, OverallQual과 Sale Price는 양의 상관관계를 갖는다.
+ 2. YearBuilt는 집이 지어진 연도를 나타낸다. 1번의 OverallQual 만큼 드라마틱한 변화는 없지만, 오래된 집 보다는 최근에 지어진 집일수록 Sale Price가 높아지는 것을 확인할 수 있다.
+ 
+<br>
+이렇게 PDP를 통해 개별 변수가 target 변수와 어떤 관계성을 갖고 있는지를 해석할 수 있다.
+
+Python에서는 다음과 같이 구현할 수 있다.
+```python
+from sklearn.inspection import plot_partial_dependence # PDP를 위해 필요한 패키지 로드
+features = [3, 5] # feature columns index  자정(대신 feautre명으로 지정해도 무방하다)
+plot_partial_dependence(model, X_train, features, line_kw={"color": "red"})
+```
+
+
+
+### (2) Interaction effect
+PDP로 두 변수 사이의 interaction effect를 확인할 수 있는 plot을 그릴 수 있다. 예시로 OverallQual과 GrLivArea(Above grade living area square feet)의 interaction 양상을 알아보자.
+<br>
+![pic](/assets/pdp2.png)
+<br>
+ + contour의 색이 밝아질수록 y축에 표시된 변수의 값이 크다는 것을 의미한다. 
+ + 그래프에서 OverallQual이 6 이하일 때는 contour 색이 가장 진한, 즉 GrLivArea가 작다. 하지만 OverallQual이 크면 작은 값에 비해 상대적으로 contour색이 밝아져 GrLivArea가 넓어진다고 해석할 수 있다. 즉, 양의 상관관계를 갖는다.
+
+<br>
+여기서 주의할 점이 하나 더 있는데, interaction effect는 반드시 인과관계를 의미한다고 단정지을 수 없다. 위 예시에서 OverallQual과 GrLivArea가 양의 상관관계를 갖는다고 해석할 수 있지만, "OverallQual 이 커지먼 GrLivArea가 넓어진다" 라는 casuality를 설명할 순 없다.
+
+```python
+from sklearn.inspection import plot_partial_dependence # PDP를 위해 필요한 패키지 로드
+features = [('OverallQual', 'GrLivArea')]  # interaction을 살펴보고 싶은 두 변수명을 tuple 형태로 지정
+plot_partial_dependence(model, X_train, features, line_kw={"color": "red"})
+```
+
+### (3) Model Comparison
+PDP를 이용하면 여러가지 모델에서의 개별 변수와 target 변수와의 관계성을 비교할 수 있다. 앞서 우리는 RandomForestRegressor 모델을 사용했는데, 추가적으로 또 다른 트리기반 모델인 LGBMRegressor도 사용하여 PDP를 비교해보자.
+<br>
+![pic](/assets/pdp3.PNG)
+<br>
+ 1. 

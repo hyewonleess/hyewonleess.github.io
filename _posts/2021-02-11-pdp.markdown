@@ -18,5 +18,5 @@ sitemap:
 ## Partial Dependence Plot
 PDP는 특정 feature가 target에 미치는 한계효과(marginal effect)를 파악하고자 할 때 사용하는 plot이다. 간단히 수식으로 먼저 살펴보자!
 Partial dependence function은 다음과 같이 정의된다.
-$ \hat{f_{x_{S}}} = \int \hat_{f(x_{S}, x_{C})} dP(x_{C}) = \frac {1}{n} \sum_{i=1}^{n} \hat_{f(x_{S}, x_{C}^{(i)})} $
+$ \hat{f_{x_{S}}} = \int \hat_{f(x_{S}, x_{C})} \dP(x_{C}) = \frac {1}{n} \sum_{i=1}^{n} \hat_{f(x_{S}, x_{C}^{(i)})} $
 여기서 $ x_{C}$는 PDP에서 해석하고자하는 feature set을 나타내고 나머지 해석에 관심이 없는 변수들의 set은 $x_{C}$로 나타낸다. Partial dependence function은 $x_{S}$ 의 한계효과를 계산하는 것이 목적이기 때문에, $x_{S}$에 대해서 integral 혹은 sigma sum을 적용함으로써 얻을 수 있다. 이 때 주의해야 할 점은 partial dependence function을 구할 때 $x_{S}$와 $x_{C}$는 독립이어야 한다. 

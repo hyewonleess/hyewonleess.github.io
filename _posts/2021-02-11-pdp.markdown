@@ -18,7 +18,7 @@ sitemap:
 ## Partial Dependence Plot
 PDP는 특정 feature가 target에 미치는 한계효과(marginal effect)를 파악하고자 할 때 사용하는 plot이다. 간단히 수식으로 먼저 살펴보자!
 Partial dependence function은 다음과 같이 정의된다.(Marginal distribution을 구하는 식과 꽤나 비슷한 걸 확인할 수 있다)
-$ \hat{f_{x_{S}}} =  \frac {1}{n} \sum_{i=1}^{n} \hat_{f(x_{S}, x_{C}^{(i)})} $
+$ \hat{f_{x_{S}}} =  \frac{1}{n} \sum_{i=1}^{n} \hat{f(x_{S}, x_{C}^{(i)})} $
 여기서 $ x_{C}$는 PDP에서 해석하고자하는 feature set을 나타내고 나머지 해석에 관심이 없는 변수들의 set은 $x_{C}$로 나타낸다. 그리고 $x_{C}^{(i)}$ 는 주어진 데이터가 총 $n$개 일 때, $i$번째 데이터의 관심대상이 아닌 변수들의 set을 나타낸다. 즉 이 함수는 각 데이터셋에서 $x_{S}$의 marginal effect를 계산하고 평균을 냄으로써 $x_{C}$가 target value에 미치는 global한 한계효과를 계산한다.
 
 PDP를 사용할 때 주의해야 할 점은 partial dependence function을 구할 때 $x_{S}$와 $x_{C}$는 독립이어야 한다. 이 독립성에 대한 가정이 PDP의 단점이기도 한데, 그 부분은 뒷부분에서 설명하도록 하겠다.
@@ -27,7 +27,9 @@ PDP를 사용할 때 주의해야 할 점은 partial dependence function을 구�
 이제 PDP 기법을 python으로 House Price 데이터에 적용해보고 각 plot을 해석해보자.
 
 ### (1) 개별 변수의 PDP
-PDP로 기본적으로 해석할 수 있는 것은 **개별 변수와 target value와의 관계**이다. House Price 데이터에서 target은 Sale Price(판매가)이다. 예시로 전체적인 집의 질을 등급으로 나타내는 OverallQual 변수와 집이 지어진 연도를 나타내는 YearBuilt가 Sale Price와 어떤 관계를 가지는지를 PDP로 어떻게 해석할 수 있는지 살펴보자.<br>
+PDP로 기본적으로 해석할 수 있는 것은 **개별 변수와 target value와의 관계**이다. 이 때 PDP가 더 특별한 이유는 <mark style='background-color: #fff5b1'> 인과관계 </mark>를 추론할 수 있기 때문이다. Feature importance, Permutation importance와 같은 다른 방법들은 변수들과의 상관관계 정도만 설명이 가능했지만, PDP를 이용하면 특정 변수와 target변수의 인과관계를 해석할 수 있다.
+
+House Price 데이터에서 target은 Sale Price(판매가)이다. 예시로 전체적인 집의 질을 등급으로 나타내는 OverallQual 변수와 집이 지어진 연도를 나타내는 YearBuilt가 Sale Price와 어떤 관계를 가지는지를 PDP로 어떻게 해석할 수 있는지 살펴보자.<br>
 
 ![pic](/assets/pdp1.png)
 <br>
@@ -68,4 +70,31 @@ PDP를 이용하면 여러가지 모델에서의 개별 변수와 target 변수�
 <br>
 ![pic](/assets/pdp3.PNG)
 <br>
- 1. 
+ 1. OverallQual, GrLivArea 둘 다 큰 값으로 갈수록 Sale Price는 랜덤포레스트가 LightGBM보다 가파르게 증가한다.
+ 2. 특정 지점(OverallQual = 6.xx, GrLivArea = 1400) 이전까지는 LightGBM에서 예측한 Sale Price는 랜덤포레스트보다 작지만, 이 지점이 지나면 랜덤포레스트가 LightGBM보다 Sale Price를 높게 예측한다.
+ 3. 전체적으로 그래프를 봤을 때, LightGBM이 랜덤포레스트보다 OverallQual, GrLivArea에 있어서는 더 안정적이라고 볼 수 있다. 랜덤포레스트의 경우, 특정 지점에서 급격하게 값이 변하기 때문에 만약 noise나 outlier가 있을 경우 이들에 LightGBM보다 크게 영향을 받을 것이다.
+ 
+
+## PDP의 한계
+PDP를 통해 개별 변수와 target 변수와의 관계를 해석하고 변수간 interaction도 해석할 수 있지만, 한계는 역시 존재한다.
+ 1. PDP는 변수들이 독립이라고 가정한다. <br>
+ 앞서 수식에서 살펴보았듯이 PDP는 변수들이 독립이라고 가정하는데, 이는 실제 데이터에서는 현실적으로 불가능한 일이다. 실제 데이터셋을 구성하는 변수들은 각각 다른 변수들과 어느정도의 상관관계를 갖고 있기 때문에 이 데이터에선 PDP의 해석이 크게 유의미하지 않을 수도 있다. 그 이유는 상관관계가 존재한다면 변수들이 target에 미치는 영향은 매우 복합적일 수 있는데, PDP처럼 그저 한 변수와 target 변수와의 관계를 해석하여 결론을 내는 것은 다소 성급한 결론이라고 볼 수 있을 것이다.
+ 2. Global한 해석은 가능하지만 local한 해석은 불가능하다. <br>
+ Partial dependence function을 계산할 때, marginal effect를 평균내어 계산하였다. 따라서 PDP는 데이터를 gloabal(전체적)으로 해석하는 것에는 용이하나, 개별 데이터 해석을 하는 것은 힘들다. 또한 평균을 냄으로써 가져오는 단점이 있다. 만약 어떤 데이터셋에서 절반정도가 변수 A가 양수값을, 나머지 절반의 변수 A가 음수값을 가지면 partial dependence function은 0에 수렴하는 값을 가진다. 이 경우 target변수와의 관계성을 해석하는데 어려움이 생긴다.(아무런 관계성도 발견할 수 없기 때문)
+ 3. PDP는 변수의 분포를 보여주지 않는다. <br>
+ PDP는 변수의 분포도는 제공하지 않는데, 변수의 분포를 모른 채 PDP 해석을 진행하게 되면 잘못된 해석을 할 여지가 있다. 이는 PDP 패키지가 아닌 따로 분포도를 그려봄으로써 해결할 수 있다.
+ 
+ 
+ ---
+ 
+ 오늘은 Interpretable Machine-learning의 기본인 Partial Dependence Plot에 대해 공부해보았다. 다음 포스팅에서는 머신러닝 해석에 사용되는 모델 중 하나인 LIME에 대해 다뤄보도록 하겠다!
+ 포스팅에서 사용한 코드는 [여기](https://github.com/hyewonleess/github_blog_posts/blob/main/interpretable_ML/%231.%20PDP.ipynb)를 참고하면 된다!
+ <br>
+ <br>
+ 
+ **참고문헌**
+<br>
+<https://christophm.github.io/interpretable-ml-book/pdp.html> <br>
+<https://scikit-learn.org/stable/modules/generated/sklearn.inspection.plot_partial_dependence.html> <br>
+
+ 

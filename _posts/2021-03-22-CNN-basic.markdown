@@ -11,3 +11,14 @@ toc: true
 use_math: true
 sitemap: 
 ---
+
+이제부터 약 한 학기(6개월정도?) 동안은 딥러닝 관련 포스팅을 주로 해보려고 한다. 이번 학기에 딥러닝 강의를 듣기도 하고, 스스로 더 찾아보고 공부해보고 기록을 남기고 싶어서 시작하게된 딥러닝 포스팅! 첫번째 주제는 이미지 분류에 주로 이용되는 <mark style='background-color: #fff5b1'>CNN(Convolutional Neural Network) </mark>이다.
+
+
+이번 포스팅은 CNN 포스팅의 첫 주자이기 때문에, CNN의 기본 이론을 간략히 리뷰하고 tensorflow를 이용해 simple한 모델을 구현해보는 것에 대해 다룰 것이다.
+
+
+## BASICS OF CNN
+
+### 1. CNN 기초 이론 리뷰
+

@@ -1,0 +1,13 @@
+---
+title:  "[CNN] #1. CNN의 기본 및 간단한 구현하기"
+categories:
+  - deeplearning
+tags:
+  - CNN
+  - deeplearning
+  - DL
+  - image
+toc: true
+use_math: true
+sitemap: 
+---

@@ -21,10 +21,45 @@ sitemap:
 # BASICS OF CNN
 
 ## 1. CNN 기초 이론 리뷰
+cf) 본 포스팅에서는 CNN의 구조는 정말 간단하게 요약하고 코드 중심으로 다룰 예정입니다
 ### (1) CNN의 구조
 CNN은 크게 Convolutional layer, Pooling layer, Fully connected layer로 구성되어 있다. 기본적인 구조는 아래 그림과 같다. <br>
 
 이미지 데이터를 입력하면 우선 Conv layer에서 필터 연산을 거치게 되고 활성화함수를 통과한 후, Pooling layer에서 pooling된다. 그리고 이 구조가 여러번 반복된다. Output으로 내보내기 전,
 Fully connected layer에서 이전까지 처리된 이미지 데이터가 1D array로 변형된다. 그 후 Softmax 계층을 통과하면서 각 class로 분류된다. 이제 하나씩 살펴보자!
 ![img](/assets/cnn.PNG)
+
+**1. Convolutional layer** <br>
+합성곱계층 Convolutional layer(줄여서 Conv layer)는 입력된 이미지의 특징(화소, 구성)을 반영하여 새로 처리된 이미지를 생성하는 계층이다. 합성곱계층에서는 이미지에 대해 **필터연산**을 수행하게 되는데 필터의 개수, 크기에 따라 이미지 연산이 달라지기도 한다.
+
+**2. Pooling layer** <br>
+풀링 계층은 합성곱 계층을 통과한 이미지의 대표적인 픽셀만 뽑는 역할을 한다. 대표적인 pooling 방법에는 max pooling, global mean pooling이 있는데 일반적으로 CNN에서는 max pooling을 많이 사용한다. (Max pooling은 n x n 픽셀에서 가장 큰 값만 추출한다.)
+이 단계를 거치면 이미지 데이터의 크기가 줄어 CNN에서 계산량을 줄일 수 있고, complexity 또한 줄일 수 있다.
+
+**3. Fully connected layer** <br>
+완전연결계층에서는 앞에서 모든 처리를 거친 이미지 데이터를 1D array로 변환하여(flatten) softmax 함수를 적용할 수 있게끔 변환한다. 
+
+
+### (2) 기본 처리
+ + filter size: 합성곱 계층에서 가장 핵심적인 필터의 크기를 나타내는 것으로, 필터 사이즈에 따라 output image의 사이즈가 달라진다.
+ + fiter 개수: 필터 개수는 output image의 채널 수를 결정한다.
+ + padding: 기존 이미지 주변을 특정 값(보통 0)으로 채우는 과정으로, 합성곱 계층을 통과해도 이미지의 사이즈가 감소하는 것을 방지하기 위해 사용한다.
+ + stride: 합성곱 계층에서 필터가 이동할 때, 처리 후 몇칸을 이동할지를 결정하는 것으로 이 역시 output image의 사이즈를 결정한다.
+
+
+## 2. Simple CNN 구현 코드
+이제 CNN을 tensorflow를 이용해서 구현하는 방법에 대해서 알아보겠다. 사용한 데이터는 아주 유명한 데이터인 MNIST 손글씨 데이터이다.
+
+### (1) Load MNIST data and preview
+MNIST 데
+```python
+```
+
+
+
+
+
+
+
+
 

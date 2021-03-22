@@ -51,11 +51,27 @@ Fully connected layer에서 이전까지 처리된 이미지 데이터가 1D arr
 이제 CNN을 tensorflow를 이용해서 구현하는 방법에 대해서 알아보겠다. 사용한 데이터는 아주 유명한 데이터인 MNIST 손글씨 데이터이다.
 
 ### (1) Load MNIST data and preview
-MNIST 데
+`tensorflow.keras` 에서 `datasets`를 이용하면 MNIST 데이터셋을 불러올 수 있다. 데이터 구성은 다음과 같다.
+ + train images: 이미지 데이터 600000개, 이미지 크기 28 x 28
+ + test images: 이미지 데이터 100000개, 이미지 크기 28 x 28
+ + class 수: 10개(0~9)
+
 ```python
+# MNIST 데이터 로드
+(train_img, train_labels), (test_img, test_labels) = datasets.mnist.load_data()
 ```
 
+만약 이미지 데이터 중 일부를 미리 보고 싶다면 `matplotlib`의 `imshow`를 이용하면 된다.
+```python
+# imshow를 이용해 MNIST 이미지 세개 미리보기
+fig, ax = plt.subplots(nrows = 1, ncols = 3)
+for i in range(3):
+  ax[i].imshow(train_img[i])
 
+plt.tight_layout()
+plt.show()
+```
+그러면 다음과 같이 이미지를 미리보기 할 수 있다.
 
 
 

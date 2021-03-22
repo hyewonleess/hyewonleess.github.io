@@ -18,7 +18,13 @@ sitemap:
 이번 포스팅은 CNN 포스팅의 첫 주자이기 때문에, CNN의 기본 이론을 간략히 리뷰하고 tensorflow를 이용해 simple한 모델을 구현해보는 것에 대해 다룰 것이다.
 
 
-## BASICS OF CNN
+# BASICS OF CNN
 
-### 1. CNN 기초 이론 리뷰
+## 1. CNN 기초 이론 리뷰
+### (1) CNN의 구조
+CNN은 크게 Convolutional layer, Pooling layer, Fully connected layer로 구성되어 있다. 기본적인 구조는 아래 그림과 같다. <br>
+
+이미지 데이터를 입력하면 우선 Conv layer에서 필터 연산을 거치게 되고 활성화함수를 통과한 후, Pooling layer에서 pooling된다. 그리고 이 구조가 여러번 반복된다. Output으로 내보내기 전,
+Fully connected layer에서 이전까지 처리된 이미지 데이터가 1D array로 변형된다. 그 후 Softmax 계층을 통과하면서 각 class로 분류된다. 이제 하나씩 살펴보자!
+![img](/assets/cnn.PNG)
 

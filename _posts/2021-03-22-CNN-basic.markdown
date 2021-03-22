@@ -33,8 +33,9 @@ Fully connected layer에서 이전까지 처리된 이미지 데이터가 1D arr
 합성곱계층 Convolutional layer(줄여서 Conv layer)는 입력된 이미지의 특징(화소, 구성)을 반영하여 새로 처리된 이미지를 생성하는 계층이다. 합성곱계층에서는 이미지에 대해 **필터연산**을 수행하게 되는데 필터의 개수, 크기에 따라 이미지 연산이 달라지기도 한다.
 
 **2. Pooling layer** <br>
-풀링 계층은 합성곱 계층을 통과한 이미지의 대표적인 픽셀만 뽑는 역할을 한다. 대표적인 pooling 방법에는 max pooling, global mean pooling이 있는데 일반적으로 CNN에서는 max pooling을 많이 사용한다. (Max pooling은 n x n 픽셀에서 가장 큰 값만 추출한다.)
-이 단계를 거치면 이미지 데이터의 크기가 줄어 CNN에서 계산량을 줄일 수 있고, complexity 또한 줄일 수 있다.
+풀링 계층은 합성곱 계층을 통과한 이미지의 대표적인 픽셀만 뽑는 역할을 한다. 대표적인 pooling 방법에는 max pooling, global mean pooling이 있는데 일반적으로 CNN에서는 max pooling을 많이 사용한다. (Max pooling은 n x n 픽셀에서 가장 큰 값만 추출한다.) Pooling의 장점은 다음과 같다.
+ + 이미지 데이터의 크기가 줄어 CNN에서 계산량을 줄일 수 있고, complexity 또한 줄일 수 있다.
+ + 이미지의 국소적인 영역에서는 픽셀의 위치가 바뀌어도 pooling 결과는 동일하기 때문에 이미지를 구성하는 요소가 바뀌어도 CNN의 출력값이 영향을 받지 않는다.
 
 **3. Fully connected layer** <br>
 완전연결계층에서는 앞에서 모든 처리를 거친 이미지 데이터를 1D array로 변환하여(flatten) softmax 함수를 적용할 수 있게끔 변환한다. 
@@ -90,6 +91,77 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPool2D
 ```
 
+
+<mark style='background-color: #fff5b1'> Modeling process </mark>
+ 1. `Sequential()`을 이용해 layer을 쌓기 위한 틀을 만든다.
+ 2. `Conv2D`를 이용해 합성곱계층을 구현한다
+   + filters: 필터 개수
+   + kernel_size: 필터(커널) 사이즈  ex) (3, 3)
+   + strides: stride 크기(몇 칸 띄어서 필터링할지 결정). 기본값은 (1, 1)
+   + padding: 'same'(합성곱계층 거쳐도 input 이미지의 사이즈 유지되도록 패딩), 'valid'(패딩하지 않음)
+   + activation: 활성화함수 지정
+   + input_shape: input 이미지의 shape 
+ 3. `MaxPool2D`를 이용해 max pooling layer을 구현한다.
+   + pool_size: max pooling layer의 사이즈
+   + strides: stride 크기
+ 4. `Flatten`으로 Fully connected layer 구현. 2D tensor을 1D array로 알아서 변환해준다!
+ 5. 1차 `Dense`를 이용해 FC layer을 Dense에 통과시켜 activation function을 적용한다.
+   + Dense layer node 수 지정하기
+ 6. 2차 `Dense`를 이용해 softmax 함수로 출력할 output layer을 만든다.
+ 
+<br>
+<br>
+
+ 
+이제 MNIST 데이터셋에 적용할 CNN 모델 코드를 작성해보자. 각 코드에 대한 설명은 주석으로 첨부하였다.
+
+<br>
+<br>
+
+첫번째 모델의 구조:  <mark style='background-color: #fff5b1'> **Conv -> Conv -> MaxPooling -> Conv -> Conv -> MaxPooling -> FC -> Dense -> Dense(softmax)** </mark>
+ 
+```python
+# 이미지 데이터 reshape -> (데이터 수, 픽셀 가로, 픽셀 세로, 채널 수)
+train_img = train_img.reshape((60000, 28, 28, 1))
+test_img = test_img.reshape((10000, 28, 28, 1))
+
+# 이미지 데이터 표준화
+train_img, test_img = train_img/255, test_img/255
+
+# labels one-hot encoding(카테고리 데이터 인코딩)
+train_labels = to_categorical(train_labels, num_classes = 10)
+test_labels = to_categorical(test_labels, num_classes = 10)
+
+# Modeling
+model = Sequential()
+# Conv2D layer 1
+model.add(Conv2D(filters = 32, kernel_size = (3, 3), strides = (1, 1), padding = 'Same', activation = 'relu', input_shape = (28, 28, 1)))
+# Conv2D layer 2
+model.add(Conv2D(filters = 32, kernel_size = (3, 3), strides = (1, 1), padding = 'Same', activation = 'relu'))
+# MaxPooling layer 1
+model.add(MaxPool2D(pool_size = (2, 2)))
+
+# Conv2D layer 3
+model.add(Conv2D(filters = 64, kernel_size = (3, 3), strides = (1, 1), padding = 'Same', activation = 'relu', input_shape = (28, 28, 1)))
+# Conv2D layer 4
+model.add(Conv2D(filters = 64, kernel_size = (3, 3), strides = (1, 1), padding = 'Same', activation = 'relu'))
+# MaxPooling layer 2
+model.add(MaxPool2D(pool_size = (2, 2)))
+
+# Fully connected layer
+model.add(Flatten())
+
+# Dense layer
+model.add(Dense(256, activation = 'relu'))
+
+# Output
+model.add(Dense(num_classes, activation = 'softmax'))
+```
+
+
+이렇게 모델을 구축하고 `model.summary()`를 이용하면 model의 구조와 사용된 파라미터의 수를 한 번에 볼 수 있다.
+ 
+ 
 
 
 

@@ -1,5 +1,5 @@
 ---
-title:  "[CNN] #2. CNN model 옵션 살펴보기"
+title:  "[CNN] #2. CNN model - Dropout Layer"
 categories:
   - deeplearning
 tags:
@@ -18,7 +18,7 @@ sitemap:
 
 <br>
 
-# 1. Dropout Layer
+# Dropout Layer
 ## (1) Dropout layer란?
 Dropout layer은 말 그대로 딥러닝/CNN 모델에서 hidden layer(은닉층)에 있는 노드의 일부를 drop하는 layer이다. 보통은 "노드를 없애면 오히려 모델 성능이 떨어지지 않을까?" 라는 의구심을 품을 수 있다. Dropout layer가 모델의 성능을 높여준다는 보장은 없지만, 적어도 **CNN 모델의 overfitting은 방지할 수 있다.**
 
@@ -55,16 +55,31 @@ model.add(Dropout(0.1))
 ```
 
 <br>
-
-**총 Dropout 비율: 0.3** <br>
+#### Case1: 총 Dropout 비율 0.3
+<br>
 ![img](/assets/dropout_result.png)
 <br>
  + Dropout을 한 결과, 하기 전에 비해 train accuracy와 test accuracy의 차이가 감소했다.(loss 도 마찬가지!)
  + 따라서 dropout layer를 추가하면 모델이 overfitting 되는 경향이 감소하는 것을 확인할 수 있다.
 
+<br>
+#### Case2: 총 Dropout 비율 0.5
+![img](/assets/dropout_result2.png)
+<br>
+ + 그래프를 보면 test accuracy가 train accuracy보다 높은 것을 확인할 수 있다. 기존에 학습한 데이터보다 새로운 데이터를 더 잘 학습한다는 뜻이기 때문에 overfitting은 방지했다고 해석할 수 있다.
+ + 하지만 accuracy 자체를 보면 총 dropout 비율이 0.3일 때보다 accuracy는 오히려 다소 낮아진 것을 확인할 수 있다. 이는 dropout 비율이 전체 노드의 절반(50%)이기 때문에 딥러닝 모델에서 잃은 정보가 많아 accuracy가 낮아졌다고 예상된다.
+ + 따라서 dropout layer을 추가하여 dropout은 하되, 그 비율을 줄여서 optimal한 모델을 만들 수 있도록 조정해야한다.
 
 
+---
 
+
+이렇게 CNN 모델에서의 dropout layer에 대해 알아보았다. 다음 포스팅에서는 batch size에 따른 MNIST 데이터셋을 적용한 CNN 모델 성능 비교를 할 예정이다 :)
 
 <br>
-# 2. Batch size
+<br>
+
+**참고문헌** <br>
+*Dropout: A Simple Way to Prevent Neural Networks from Overfitting* <br>
+
+

@@ -21,5 +21,31 @@ sitemap:
 # 1. Dropout Layer
 Dropout layer은 말 그대로 딥러닝/CNN 모델에서 hidden layer(은닉층)에 있는 노드의 일부를 drop하는 layer이다. 보통은 "노드를 없애면 오히려 모델 성능이 떨어지지 않을까?" 라는 의구심을 품을 수 있다. Dropout layer가 모델의 성능을 높여준다는 보장은 없지만, 적어도 **CNN 모델의 overfitting은 방지할 수 있다.**
 
-Overfitting(과적합)은 모델이 훈련 데이터셋를 과도하게 학습하여 훈련 데이터셋에 대해서는 모델의 성능이 좋지만 새로운 데이터셋(예를 들면 검증 데이터셋)에 대해서는 오히려 성능이 떨어지는 현상을 말한다. 좋은 모델이라면 어떤 데이터셋이 들어와도 잘 예측을 해야 하기 때문에 CNN 모델링에 있어서 overfitting이 발생하지 않도록 하는 것은 매우 중요하다. 
+Overfitting(과적합)은 모델이 훈련 데이터셋를 과도하게 학습하여 훈련 데이터셋에 대해서는 모델의 성능이 좋지만 새로운 데이터셋(예를 들면 검증 데이터셋)에 대해서는 오히려 성능이 떨어지는 현상을 말한다. 좋은 모델이라면 어떤 데이터셋이 들어와도 잘 예측을 해야 하기 때문에 CNN 모델링에 있어서 과적합이 발생하지 않도록 하는 것은 매우 중요하다.
 
+CNN을 포함한 딥러닝 모델에서는 과적합을 방지하기 위해 **Dropout layer**을 사용한다. 
+
+
+
+<br>
+
+이제 MNIST 데이터셋에 Dropout layer을 추가하여 모델을 구현해보고 결과를 보자. 자료조사를 해보니 dropout layer을 모든 layer에 쓸 수 있는 것이 아니고, 마지막 output을 출력하는 layer에는 dropout을 적용하지 않는다.(사실 당연한 소리긴 하다) 
+
+<br>
+
+Python에서 구현하는 방법은 간단하다. 이전에 Conv2D, MaxPool2D layer을 추가했듯이 `model.add(Dropout(p))` 으로 dropout layer을 추가하면 된다. 괄호 안의 $p$는 해당 layer에서 몇 퍼센트의 노드를 드랍할 것인지를 결정한다. 만약 0.2를 입력한다면 랜덤으로 20%의 노드를 골라 드랍하는 것이다!
+
+```python
+model = Sequential()
+model.add(Conv2D(filters = 32, kernel_size = (3, 3), strides = (1, 1), padding = 'Same', activation = 'relu', input_shape = (28, 28, 1)))
+model.add(Conv2D(filters = 32, kernel_size = (3, 3), strides = (1, 1), padding = 'Same', activation = 'relu'))
+model.add(MaxPool2D(pool_size = (2, 2)))
+
+# dropout layer 추가하기
+model.add(Dropout(0.1))
+```
+
+총 Dropout 비율에 따라 모델의 성능이 달라진다.
+
+<br>
+# 2. Batch size

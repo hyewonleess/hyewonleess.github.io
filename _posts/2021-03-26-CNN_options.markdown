@@ -54,7 +54,14 @@ model.add(MaxPool2D(pool_size = (2, 2)))
 model.add(Dropout(0.1))
 ```
 
-**총 Dropout 비율: 0.3**
+<br>
+
+**총 Dropout 비율: 0.3** <br>
+![img](/assets/dropout_result.png)
+<br>
+ + Dropout을 한 결과, 하기 전에 비해 train accuracy와 test accuracy의 차이가 감소했다.(loss 도 마찬가지!)
+ + 따라서 dropout layer를 추가하면 모델이 overfitting 되는 경향이 감소하는 것을 확인할 수 있다.
+
 
 
 

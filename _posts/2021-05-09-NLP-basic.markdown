@@ -1,0 +1,22 @@
+---
+title:  "[NLP] #1. 워드 임베딩(Word Embedding)"
+categories:
+  - deeplearning
+tags:
+  - NLP
+  - deeplearning
+  - DL
+  - text
+  - tensorflow
+toc: true
+use_math: true
+sitemap: 
+---
+
+# Prologue
+**자연어처리(Natural Language Preprocessing)** 은 문장, 텍스트 등 인간의 언어를 컴퓨터 언어로 구현하는 AI 알고리즘이다. NLP는 현 시대를 대표는 AI 알고리즘 중 하나로, 가장 대표적인 것이 텍스트분석인데, 예를 들면 영화 감상평 분석, 
+트위터를 이용한 의견 분석 등등을 할 때 쓰이는 분석기법이다. 
+
+대학원 딥러닝 수업에서 처음으로 자연어처리에 대해 배웠는데, 공부할 것도 많고 알아가야 하는 것이 많아서 포스팅으로 남기려고 한다. 이 블로그에서 다루는 자연어처리 포스팅은 대부분 텍스트분석에 관련된 것이다!
+
+# Word Embedding

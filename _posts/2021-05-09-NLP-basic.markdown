@@ -49,3 +49,38 @@ sitemap:
 
 
 ## 2. Word2vec
+Word2vec은 워드임베딩 방법 중 하나이다. **워드임베딩**은 텍스트를 밀집벡터(Dense vector)의 형태로 변환하는 과정을 말한다. Word2vec에는 크게 **CBOW**와 **Skip-Gram** 이 있다. 이 두 방법은 Input과 output이 서로 반대일 뿐, 나머지 과정은 모두 동일하다.
+
+### (1) CBOW
+CBOW는 주변단어를 이용해 중심단어를 예측하는 방법이다. 
+
+예시: A fat dog ate delicious meat
+<br>
+여기서 예측하고자 하는 중심단어가 **ate**라고 하자. CBOW에서는 window 라는 것을 결정하는데, 이는 중심단어 앞/뒤로 몇 개의 단어를 주변단어로 포함시킬지를 결정하는 요소이다. 만약 window가 2라면 ate 앞의 두 단어 fat, dog와 뒤의 두 단어 delicious, mean이 중심단어이다. 즉, $2 \times \text{window}$ 만큼 중심단어의 개수를 정한다.
+
+<br>
+아래 그림은 CBOW의 매커니즘을 도식화한 것이다.
+
+ + **Input layer**: 주변단어 4개($1 \times v$ vector)를 input으로 받는다. 이 떄 가중치행렬 $W_{v\times m}$ 을 각 단어에 곱하여 그 값을 projection layer에 전달한다. 이 때 주변단어는 희소벡터 형태로 표현된다.
+ + **Projection layer**: 4개의 주변단어와 가중치행렬을 곱하여 4개의 output($1 \times m$ vector)을 산출한다. 이 때 각 output을 $v_{fat}, v_{dog}, v_{delicious}, v_{min}$이라 하자. Projection layer에서는 이 네 개의 벡터의 평균을 구하여 벡터 $v = \frac{v_{fat}+v_{dog}+v_{delicious}+ v_{min}}{2*\text{window}} $ 를 만든다.
+ + **Output layer**: Projection layer에서 구한 벡터 $v$와 가중치행렬을 transpose한 $W^\prime$ 행렬을 곱하여 output layer의 input으로 전달한다. 이 값을 $z$ 라 하자. 그리고 최종적으로 output layer의 ouput은 $z$에 softmax함수를 적용하여 구할 수 있다. 
+ + Output layer에서 구한 최종 output $\hat{y}$와 예측하고자 하는 대상인 **ate**의 희소벡터 $y$ 와의 cross entropy를 계산하여 loss를 구한다.
+ 
+<br>
+![pic](/assets/cbow.jpg)
+
+
+### (2) Skip-Gram
+SKip-Gram은 중심단어를 이용해 주변단어를 예측하는 방법으로, 앞서 다룬 CBOW 방법과 반대 과정이다.
+<br>
+![pic](/assets/skipgram.jpg)
+
+
+
+
+---
+
+
+**참고문헌**
+<br>
+<https://wikidocs.net/22660>

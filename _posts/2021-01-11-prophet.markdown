@@ -1,7 +1,7 @@
 ---
 title:  "[Time Series Analysis] #5. Simple Prophet Model: 주식데이터 적용"
 categories:
-  - application
+  - Time Series
 tags:
   - timeseries
   - stocks

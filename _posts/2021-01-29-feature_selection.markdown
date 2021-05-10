@@ -1,7 +1,7 @@
 ---
 title:  "[Feature Selection] #1. 다양한 Feature Selection method 소개"
 categories:
-  - theory
+  - ML
 tags:
   - feature selection
   - ML

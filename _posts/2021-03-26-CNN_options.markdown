@@ -1,7 +1,7 @@
 ---
 title:  "[CNN] #2. CNN model - Dropout Layer"
 categories:
-  - deeplearning
+  - CNN
 tags:
   - CNN
   - deeplearning

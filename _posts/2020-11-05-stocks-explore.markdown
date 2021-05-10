@@ -1,7 +1,7 @@
 ---
 title:  "[데이터분석실습] #1 주식데이터 탐색 - 1편"
 categories:
-  - application
+  - Data Analysis
 tags:
   - analysis
   - finance

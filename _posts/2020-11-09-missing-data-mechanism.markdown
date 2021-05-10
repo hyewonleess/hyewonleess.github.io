@@ -1,7 +1,7 @@
 ---
 title:  "[데이터분석이론] #1 Missing data Mechanism"
 categories:
-  - theory
+  - Theory
 tags:
   - missingdata
   - imputation

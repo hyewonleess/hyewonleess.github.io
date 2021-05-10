@@ -1,7 +1,7 @@
 ---
 title:  "[Feature Selection] #2. Permutation Importance"
 categories:
-  - theory
+  - ML
 tags:
   - feature selection
   - permutation importance

@@ -1,7 +1,7 @@
 ---
 title:  "[Time Series Analysis] #1 시계열 평활기법(1)"
 categories:
-  - Time Series
+  - Time Series Analysis
 tags:
   - timeseries
 toc: true

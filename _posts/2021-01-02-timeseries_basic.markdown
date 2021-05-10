@@ -1,7 +1,7 @@
 ---
 title:  "[Time Series Analysis] #2 ARMA/ARIMA를 위한 개념 Build-up"
 categories:
-  - Time Series
+  - Time Series Analysis
 tags:
   - timeseries
 toc: true

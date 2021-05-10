@@ -1,7 +1,7 @@
 ---
 title:  "[데이터분석이론] #2 Bootstrap"
 categories:
-  - theory
+  - Theory
 tags:
   - bootstrap
 toc: true  

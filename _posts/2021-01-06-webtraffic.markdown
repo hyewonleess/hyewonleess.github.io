@@ -1,7 +1,7 @@
 ---
 title:  "[Time Series Analysis] #3. Simple Web Traffic Data Analysis - Part 1"
 categories:
-  - Time Series
+  - Time Series Analysis
 tags:
   - timeseries
   - kaggle
